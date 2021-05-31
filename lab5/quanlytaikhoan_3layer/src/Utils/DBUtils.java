@@ -1,4 +1,4 @@
-package DBUtils;
+package Utils;
 
 /**
  *
@@ -15,12 +15,12 @@ public class DBUtils {
     
     public Connection createCon() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             String URL = "jdbc:mysql://localhost:3306/qlsp";
             String USER = "root";
             String PASS = "NGA.kiu47";
             
-            Connection conn =DriverManager.getConnection(URL, USER, PASS);
+            conn = DriverManager.getConnection(URL, USER, PASS);
             
             if (conn == null)
                 System.out.println("Ket noi khong thanh cong.");
