@@ -242,7 +242,7 @@ public class SanPham extends javax.swing.JFrame {
                 pres.setString(1, txtMaSP.getText());
                 pres.executeUpdate();
                 con.close();
-            TaoTable();
+                TaoTable();
             } catch (SQLException e) {
                 System.out.println(e);
             }
