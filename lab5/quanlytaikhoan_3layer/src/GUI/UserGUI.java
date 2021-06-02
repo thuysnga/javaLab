@@ -3,6 +3,7 @@ package GUI;
 import BLL.UserBLL;
 import DTO.UserDTO;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.*;
 
 /**
@@ -15,6 +16,7 @@ public class UserGUI extends javax.swing.JFrame {
         setSize(600,400);
         setTitle("Quanlytaikhoan");
         loadTable();
+        loadCbbRole();
         setVisible(true);
     }
     
@@ -40,6 +42,11 @@ public class UserGUI extends javax.swing.JFrame {
          }
         tblUser.setModel(tblModelUser);
         setVisible(true);
+    }
+    
+    public void loadCbbRole() {
+        cbbUserrole.setModel(new DefaultComboBoxModel <> (new String [] 
+            {"Quản trị viên","Lập trình viên","Kiểm thử viên","Giám đốc"}));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
