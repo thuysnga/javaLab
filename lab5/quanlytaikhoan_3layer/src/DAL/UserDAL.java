@@ -97,4 +97,26 @@ public class UserDAL {
         }
         return result;
     }
+    public int deleteUser (UserDTO user) {
+        int result = 0;
+        String sqlDel = "delete from USER where userid = ?";
+        try {
+            dbu = new DBUtils();
+            conn = dbu.createCon();
+            pres = conn.prepareStatement(sqlDel);
+            pres.setInt(1,user.getUserid());
+            result = pres.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                pres.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 }

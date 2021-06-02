@@ -21,4 +21,8 @@ public class UserBLL {
         int result = DALUser.updateUser(user);
         return result;
     }
+    public int deleteUser (UserDTO user) {
+        int result = DALUser.deleteUser(user);
+        return result;
+    }
 }

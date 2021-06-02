@@ -142,6 +142,11 @@ public class UserGUI extends javax.swing.JFrame {
         btnDelete.setMaximumSize(new java.awt.Dimension(100, 25));
         btnDelete.setMinimumSize(new java.awt.Dimension(100, 25));
         btnDelete.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -265,6 +270,25 @@ public class UserGUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserid(Integer.parseInt(txtUserid.getText()));
+        
+        UserBLL userBLL = new UserBLL();
+        int choice = JOptionPane.showConfirmDialog(null, "Ban co chac muon xoa du lieu?", "Xac nhan", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            try {
+                int result = userBLL.deleteUser(userDTO);
+                if (result != 0) {
+                    JOptionPane.showMessageDialog(null, "Xoa du lieu thanh cong!","Thong bao", JOptionPane.INFORMATION_MESSAGE);
+                    loadTable();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
