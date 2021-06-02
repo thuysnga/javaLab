@@ -1,5 +1,10 @@
 package GUI;
 
+import BLL.UserBLL;
+import DTO.UserDTO;
+import java.util.ArrayList;
+import javax.swing.table.*;
+
 /**
  *
  * @author THUYNGA
@@ -9,6 +14,31 @@ public class UserGUI extends javax.swing.JFrame {
         initComponents();
         setSize(600,400);
         setTitle("Quanlytaikhoan");
+        loadTable();
+        setVisible(true);
+    }
+    
+    DefaultTableModel tblModelUser;
+    public void loadTable () {
+        tblModelUser = new DefaultTableModel();
+        String title[] = {"Mã nhân viên","Tên đăng nhập","Mật khẩu","Phân quyền"};
+        tblModelUser.setColumnIdentifiers(title);
+        
+        ArrayList<UserDTO> arr = new ArrayList<UserDTO>();
+        UserBLL userBLL = new UserBLL();
+        arr = userBLL.getAllUser();
+        
+        UserDTO userDTO = new UserDTO();
+        for (int i = 0; i < arr.size(); i++) {
+            userDTO = arr.get(i);
+            int id = userDTO.getUserid();
+            String username = userDTO.getUsername();
+            String pass = userDTO.getPassword();
+            String userrole = userDTO.getUserrole();
+            Object [] row = {id, username, pass, userrole};
+            tblModelUser.addRow(row);
+         }
+        tblUser.setModel(tblModelUser);
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -25,7 +55,7 @@ public class UserGUI extends javax.swing.JFrame {
         txtUserpassword = new javax.swing.JTextField();
         cbbUserrole = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblUser = new javax.swing.JTable();
         btnInsert = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -35,7 +65,6 @@ public class UserGUI extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(600, 400));
-        setPreferredSize(new java.awt.Dimension(600, 400));
         setSize(new java.awt.Dimension(600, 400));
 
         lbltit.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -62,7 +91,7 @@ public class UserGUI extends javax.swing.JFrame {
         cbbUserrole.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         cbbUserrole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -73,7 +102,7 @@ public class UserGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblUser);
 
         btnInsert.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         btnInsert.setText("Thêm");
@@ -180,12 +209,12 @@ public class UserGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbbUserrole;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblUserid;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblUserpassword;
     private javax.swing.JLabel lblUserrole;
     private javax.swing.JLabel lbltit;
+    private javax.swing.JTable tblUser;
     private javax.swing.JTextField txtUserid;
     private javax.swing.JTextField txtUsername;
     private javax.swing.JTextField txtUserpassword;

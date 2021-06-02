@@ -27,7 +27,7 @@ public class UserDAL {
                 UserDTO user = new UserDTO();
                 user.setUserid(rs.getInt("userid"));
                 user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("userpassword"));
+                user.setPassword(rs.getString("password"));
                 user.setUserrole(rs.getString("userrole"));
                 result.add(user);
             }
