@@ -219,6 +219,22 @@ public class UserGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserid(Integer.parseInt(txtUserid.getText()));
+        userDTO.setUsername(txtUsername.getText());
+        userDTO.setPassword(txtUserpassword.getText());
+        userDTO.setUserrole(cbbUserrole.getSelectedItem().toString());
+        
+        UserBLL userBLL = new UserBLL();
+        try {
+            int result = userBLL.updateUser(userDTO);
+            if (result != 0) {
+                JOptionPane.showMessageDialog(null, "Cap nhat du lieu thanh cong!","Thong bao", JOptionPane.INFORMATION_MESSAGE);
+                loadTable();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked

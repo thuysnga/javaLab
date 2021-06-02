@@ -72,4 +72,29 @@ public class UserDAL {
         }
         return result;
     }
+    public int updateUser (UserDTO user) {
+        int result = 0;
+        String sqlUpdate = "update USER set username = ?, password = ?, userrole =? where userid = ?";
+        try {
+            dbu = new DBUtils();
+            conn = dbu.createCon();
+            pres = conn.prepareStatement(sqlUpdate);
+            pres.setString(1,user.getUsername());
+            pres.setString(2,user.getPassword());
+            pres.setString(3,user.getUserrole());
+            pres.setInt(4,user.getUserid());
+            result = pres.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                pres.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 }

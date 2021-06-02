@@ -17,4 +17,8 @@ public class UserBLL {
         int result  = DALUser.insertUser(user);
         return result;
     }
+    public int updateUser (UserDTO user) {
+        int result = DALUser.updateUser(user);
+        return result;
+    }
 }
