@@ -13,4 +13,8 @@ public class UserBLL {
     public ArrayList<UserDTO> getAllUser() {
         return DALUser.getAllUser();
     } 
+    public int insertUser(UserDTO user) {
+        int result  = DALUser.insertUser(user);
+        return result;
+    }
 }

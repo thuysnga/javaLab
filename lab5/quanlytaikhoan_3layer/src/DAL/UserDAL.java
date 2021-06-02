@@ -46,4 +46,30 @@ public class UserDAL {
         }
         return result;
     }
+    
+    public int insertUser(UserDTO user) {
+        int result =0 ;
+        String sqlInsert = "insert into USER values (?,?,?,?)";
+        try {
+            dbu = new DBUtils();
+            conn = dbu.createCon();
+            pres = conn.prepareStatement(sqlInsert);
+            pres.setInt(1,user.getUserid());
+            pres.setString(2,user.getUsername());
+            pres.setString(3,user.getPassword());
+            pres.setString(4,user.getUserrole());
+            result = pres.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                pres.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 }

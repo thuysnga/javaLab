@@ -4,6 +4,7 @@ import BLL.UserBLL;
 import DTO.UserDTO;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.*;
 
 /**
@@ -121,6 +122,11 @@ public class UserGUI extends javax.swing.JFrame {
         btnInsert.setMaximumSize(new java.awt.Dimension(100, 25));
         btnInsert.setMinimumSize(new java.awt.Dimension(100, 25));
         btnInsert.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         btnUpdate.setText("Cập nhật");
@@ -224,6 +230,25 @@ public class UserGUI extends javax.swing.JFrame {
             cbbUserrole.setSelectedItem(tblModelUser.getValueAt(indexTB, 3).toString());
         }
     }//GEN-LAST:event_tblUserMouseClicked
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserid(Integer.parseInt(txtUserid.getText()));
+        userDTO.setUsername(txtUsername.getText());
+        userDTO.setPassword(txtUserpassword.getText());
+        userDTO.setUserrole(cbbUserrole.getSelectedItem().toString());
+        
+        UserBLL userBLL = new UserBLL();
+        try {
+            int result = userBLL.insertUser(userDTO);
+            if (result != 0) {
+                JOptionPane.showMessageDialog(null, "Them du lieu thanh cong!","Thong bao", JOptionPane.INFORMATION_MESSAGE);
+                loadTable();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnInsertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
