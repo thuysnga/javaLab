@@ -46,7 +46,7 @@ public class UserGUI extends javax.swing.JFrame {
     
     public void loadCbbRole() {
         cbbUserrole.setModel(new DefaultComboBoxModel <> (new String [] 
-            {"Quản trị viên","Lập trình viên","Kiểm thử viên","Giám đốc"}));
+            {"Quan tri","Lap trinh vien","Kiem thu phan mem","Giam doc"}));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -109,6 +109,11 @@ public class UserGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUserMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblUser);
 
         btnInsert.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -209,6 +214,16 @@ public class UserGUI extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
+        int indexTB = tblUser.getSelectedRow();
+        if (indexTB < tblModelUser.getRowCount() && indexTB >=0 ) {
+            txtUserid.setText(tblModelUser.getValueAt(indexTB, 0).toString());
+            txtUsername.setText(tblModelUser.getValueAt(indexTB, 1).toString());
+            txtUserpassword.setText(tblModelUser.getValueAt(indexTB, 2).toString());
+            cbbUserrole.setSelectedItem(tblModelUser.getValueAt(indexTB, 3).toString());
+        }
+    }//GEN-LAST:event_tblUserMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
