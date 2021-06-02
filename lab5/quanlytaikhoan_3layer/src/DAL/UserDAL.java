@@ -9,14 +9,14 @@ import java.util.ArrayList;
  *
  * @author THUYNGA
  */
-public class userDAL {
+public class UserDAL {
     private DBUtils dbu = null;
     private Connection conn = null;
     private PreparedStatement pres = null;
     private ResultSet rs = null;
     
-    public ArrayList<userDTO> getAllUser ()  {
-        ArrayList<userDTO> result = new ArrayList<userDTO>();
+    public ArrayList<UserDTO> getAllUser ()  {
+        ArrayList<UserDTO> result = new ArrayList<UserDTO>();
         String sqlSelectAll = "select * from USER";
         try {
             dbu =  new DBUtils();
@@ -24,7 +24,7 @@ public class userDAL {
             pres = conn.prepareStatement(sqlSelectAll);
             rs = pres.executeQuery();
             while (rs.next()) {
-                userDTO user = new userDTO();
+                UserDTO user = new UserDTO();
                 user.setUserid(rs.getInt("userid"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("userpassword"));

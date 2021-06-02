@@ -4,7 +4,7 @@ package DTO;
  *
  * @author THUYNGA
  */
-public class userDTO {
+public class UserDTO {
     private int userid;
     private String username;
     private String password;
@@ -42,10 +42,10 @@ public class userDTO {
         this.userrole = userrole;
     }
 
-    public userDTO() {
+    public UserDTO() {
     }
 
-    public userDTO(int userid, String username, String password, String userrole) {
+    public UserDTO(int userid, String username, String password, String userrole) {
         this.userid = userid;
         this.username = username;
         this.password = password;

@@ -4,8 +4,8 @@ package GUI;
  *
  * @author THUYNGA
  */
-public class userGUI extends javax.swing.JFrame {
-    public userGUI() {
+public class UserGUI extends javax.swing.JFrame {
+    public UserGUI() {
         initComponents();
         setSize(600,400);
         setTitle("Quanlytaikhoan");
