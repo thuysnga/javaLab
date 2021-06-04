@@ -172,9 +172,10 @@ public class themThongTinBenhNhan extends javax.swing.JFrame {
         BenhNhanBUS benhnhanBUS = new BenhNhanBUS();
         try {
             int result = benhnhanBUS.themBN(benhNhanDTO);
-            if (result != 0) {
-                JOptionPane.showMessageDialog(null, "Them du lieu thanh cong!","Thong bao", JOptionPane.INFORMATION_MESSAGE);
-            }
+            if (result != 0)
+                JOptionPane.showMessageDialog(null, "Thêm bệnh nhân thành công!","Thông bao", JOptionPane.INFORMATION_MESSAGE);
+            else 
+                JOptionPane.showMessageDialog(null, "Thêm bệnh nhân không thành công!","Thông bao", JOptionPane.INFORMATION_MESSAGE);                
         } catch (Exception e) {
             e.printStackTrace();
         }
