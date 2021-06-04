@@ -23,7 +23,6 @@ public class BacSiDAL {
             rs = stat.executeQuery(sqlSelectTenBS);
             while (rs.next()) {
                 String ten = new String();
-                System.out.println(rs.getString("tenbs"));
                 ten = rs.getString("tenbs");
                 result.add(ten);
             }
