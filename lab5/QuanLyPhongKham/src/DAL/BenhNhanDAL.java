@@ -13,6 +13,7 @@ public class BenhNhanDAL {
     private Connection conn = null;
     private PreparedStatement pres = null;
     private ResultSet rs = null;
+    private Statement stat = null;
     
     public int themBN(BenhNhanDTO benhnhanDTO) {
         int result = 0;
@@ -37,6 +38,31 @@ public class BenhNhanDAL {
                 conn.close();
                 pres.close();
             } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+    public String getTenBN(String maBN) {
+        String sqlSelectTen = "select TENBN from BENHNHAN WHERE MABN = '" + maBN + "'";
+        String result = "";
+        try {
+            dbu = new DBUtils();
+            conn = dbu.createConn();
+            stat = conn.createStatement();
+            rs = stat.executeQuery(sqlSelectTen);
+            while (rs.next()) {
+                result = rs.getString("tenbn");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                stat.close();
+                rs.close();
+            } catch(SQLException e) {
                 e.printStackTrace();
             }
         }

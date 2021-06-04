@@ -1,8 +1,10 @@
 package GUI;
 
 import BUS.BacSiBUS;
+import BUS.BenhNhanBUS;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -165,7 +167,16 @@ public class datLichKhamGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtMaBNKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaBNKeyPressed
+        BenhNhanBUS benhnhanBUS = new BenhNhanBUS();
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            System.out.println(benhnhanBUS.getTenBN(txtMaBN.getText()));
+            if (benhnhanBUS.getTenBN(txtMaBN.getText()) == "") {
+                JOptionPane.showMessageDialog(null, "Không tìm thấy bệnh nhân", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                txtMaBN.setText("");
+                txtTenBN.setText("");
+            }
+            else 
+                txtTenBN.setText(benhnhanBUS.getTenBN(txtMaBN.getText()));
         }
     }//GEN-LAST:event_txtMaBNKeyPressed
 

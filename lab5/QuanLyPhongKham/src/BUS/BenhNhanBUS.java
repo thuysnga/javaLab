@@ -8,8 +8,11 @@ import DTO.BenhNhanDTO;
  * @author THUYNGA
  */
 public class BenhNhanBUS {
-    BenhNhanDAL benhnhanhDAL = new BenhNhanDAL();
+    BenhNhanDAL benhnhanDAL = new BenhNhanDAL();
     public int themBN(BenhNhanDTO benhnhanDTO) {
-        return benhnhanhDAL.themBN(benhnhanDTO);
+        return benhnhanDAL.themBN(benhnhanDTO);
     }
+    public String getTenBN(String maBN) { 
+        return benhnhanDAL.getTenBN(maBN);
+    }    
 }
