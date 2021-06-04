@@ -8,6 +8,6 @@ import GUI.*;
  */
 public class QuanLyPhongKham {
     public static void main(String[] args) {
-    new datLichKhamGUI();
+    new ChiTietKhamGUI();
     }
 }
