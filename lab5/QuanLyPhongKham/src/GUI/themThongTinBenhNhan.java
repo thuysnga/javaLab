@@ -1,5 +1,9 @@
 package GUI;
 
+import BUS.BenhNhanBUS;
+import DTO.BenhNhanDTO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author THUYNGA
@@ -65,6 +69,7 @@ public class themThongTinBenhNhan extends javax.swing.JFrame {
 
         txtSDT.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
+        dtcNgaySinh.setDateFormatString("yyyy/m/d");
         dtcNgaySinh.setMinSelectableDate(new java.util.Date(-62135791133000L));
 
         cbbGioitinh.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -72,6 +77,11 @@ public class themThongTinBenhNhan extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("THÊM");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,6 +158,28 @@ public class themThongTinBenhNhan extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        BenhNhanDTO benhNhanDTO = new BenhNhanDTO();
+        
+        benhNhanDTO.setMabn(txtMaBN.getText());
+        benhNhanDTO.setTenbn(txtTenBN.getText());
+        benhNhanDTO.setNgaysinh(dtcNgaySinh.getDate());
+        benhNhanDTO.setDiachi(txtDiaChi.getText());
+        boolean gt = false;
+        if (cbbGioitinh.getSelectedItem().toString() == "Nam") gt = true;
+        benhNhanDTO.setGioitinh(gt);
+        BenhNhanBUS benhnhanBUS = new BenhNhanBUS();
+        try {
+            int result = benhnhanBUS.themBN(benhNhanDTO);
+            if (result != 0) {
+                JOptionPane.showMessageDialog(null, "Them du lieu thanh cong!","Thong bao", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbbGioitinh;
