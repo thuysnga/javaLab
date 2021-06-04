@@ -3,12 +3,10 @@ package GUI;
 import BUS.BacSiBUS;
 import BUS.BenhNhanBUS;
 import BUS.KhamBenhBUS;
-import DTO.BacSiDTO;
 import DTO.KhamBenhDTO;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import java.sql.*;
 
 /**
  *
@@ -83,7 +81,7 @@ public class DatLichKhamGUI extends javax.swing.JFrame {
         txtYeuCauKham.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         cbbBacSiKham.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        cbbBacSiKham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
+        cbbBacSiKham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn bác sĩ" }));
 
         btnDatLichKham.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDatLichKham.setText("Đặt lịch khám");
