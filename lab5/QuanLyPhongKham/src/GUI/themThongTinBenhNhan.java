@@ -69,7 +69,6 @@ public class themThongTinBenhNhan extends javax.swing.JFrame {
 
         txtSDT.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
-        dtcNgaySinh.setDateFormatString("yyyy/m/d");
         dtcNgaySinh.setMinSelectableDate(new java.util.Date(-62135791133000L));
 
         cbbGioitinh.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
