@@ -2,9 +2,13 @@ package GUI;
 
 import BUS.BacSiBUS;
 import BUS.BenhNhanBUS;
+import BUS.KhamBenhBUS;
+import DTO.BacSiDTO;
+import DTO.KhamBenhDTO;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import java.sql.*;
 
 /**
  *
@@ -83,6 +87,11 @@ public class datLichKhamGUI extends javax.swing.JFrame {
 
         btnDatLichKham.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDatLichKham.setText("Đặt lịch khám");
+        btnDatLichKham.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatLichKhamActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,6 +188,30 @@ public class datLichKhamGUI extends javax.swing.JFrame {
                 txtTenBN.setText(benhnhanBUS.getTenBN(txtMaBN.getText()));
         }
     }//GEN-LAST:event_txtMaBNKeyPressed
+
+    private void btnDatLichKhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLichKhamActionPerformed
+        KhamBenhDTO khambenhDTO = new KhamBenhDTO();
+        KhamBenhBUS khambenhBUS = new KhamBenhBUS();
+        khambenhDTO.setMaKB(khambenhBUS.layMaKB());
+        khambenhDTO.setMaBN(txtMaBN.getText());
+        
+        BacSiBUS bacsiBUS = new BacSiBUS();
+        ArrayList<String> dsBS = bacsiBUS.getMaBS();
+        khambenhDTO.setMaBS(dsBS.get(cbbBacSiKham.getSelectedIndex()));
+        
+        khambenhDTO.setNgayKham(dtcNgayKham.getDate());
+        khambenhDTO.setYeuCauKham(txtYeuCauKham.getText());
+        khambenhDTO.setKetLuan("");
+        try {
+            int res = khambenhBUS.themKhamBenh(khambenhDTO);
+            if (res != 0)
+                JOptionPane.showMessageDialog(null, "Đặt lịch thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            else 
+                JOptionPane.showInternalMessageDialog(null, "Xãy ra lỗi khi đặt lịch", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnDatLichKhamActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDatLichKham;

@@ -235,6 +235,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="&#x110;&#x1eb7;t l&#x1ecb;ch kh&#xe1;m"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDatLichKhamActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
