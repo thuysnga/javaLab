@@ -15,7 +15,7 @@ public class KhamBenhDAL {
     private Statement stat = null;
     public int themKhamBenh(KhamBenhDTO khambenhDTO) {
         int result = 0;
-        String sqlInsert = "insert into KHAMBENH values (?,?,?,?,?,?,?);";
+        String sqlInsert = "insert into KHAMBENH values (?,?,?,?,?,?,0);";
         try {
             dbu = new DBUtils();
             conn = dbu.createConn();
@@ -27,8 +27,8 @@ public class KhamBenhDAL {
             pres.setDate(4,sqldate);
             pres.setString(5, khambenhDTO.getYeuCauKham());
             pres.setString(6, khambenhDTO.getKetLuan());
-            pres.setBoolean(7, khambenhDTO.isTHANHTOAN());
             result = pres.executeUpdate();
+            System.out.println(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -41,5 +41,44 @@ public class KhamBenhDAL {
             }
         }
         return result;
+    }
+    public String layMaKB () {
+        String rel = new String();
+        String sqlSelect = "select makb from KHAMBENH order by makb DESC";
+        try {
+            dbu = new DBUtils();
+            conn = dbu.createConn();
+            stat = conn.createStatement();
+            rs = stat.executeQuery(sqlSelect);
+            if (rs.first() == false) {
+                rel = "kb0001";
+            }
+            else {
+                String mahientai = rs.getString("makb");
+                rel = mahientai.substring(2, 6);
+                int mamoi = Integer.parseInt(rel) + 1;
+                if (mamoi < 10)
+                    rel = "kb000" + mamoi;
+                else 
+                    if (mamoi < 100)
+                        rel = "kb00" + mamoi;
+                    else 
+                        if (mamoi < 1000)
+                            rel = "kb0" + mamoi;
+                        else 
+                            rel = "kb" + mamoi;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return rel;
     }
 }
