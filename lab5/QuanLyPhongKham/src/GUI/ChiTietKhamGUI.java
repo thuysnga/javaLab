@@ -1,5 +1,9 @@
 package GUI;
 
+import BUS.BacSiBUS;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author THUYNGA
@@ -9,9 +13,15 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         initComponents();
         setSize(650,430);
         setTitle("Khám bệnh");
+        loadCbbTenBS();
+        txtYeuCauKham.setEditable(false);
         setVisible(true);
     }
-    
+    public void loadCbbTenBS() {
+        BacSiBUS bacsiBUS = new BacSiBUS();
+        ArrayList<String> dsBS = bacsiBUS.getTenBS();
+        cbbBacSiKham.setModel(new DefaultComboBoxModel <> (dsBS.toArray(new String[0])));
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
