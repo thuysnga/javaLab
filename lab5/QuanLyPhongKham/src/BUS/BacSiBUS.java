@@ -12,4 +12,7 @@ public class BacSiBUS {
     public ArrayList<String> getTenBS() {
         return bacsiDAL.getTenBS();
     }
+    public ArrayList<String> getMaBS() {
+        return bacsiDAL.getMaBS();
+    }
 }
