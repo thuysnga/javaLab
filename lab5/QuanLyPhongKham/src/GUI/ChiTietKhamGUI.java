@@ -1,8 +1,11 @@
 package GUI;
 
 import BUS.BacSiBUS;
+import BUS.DichVuBUS;
+import DTO.DichVuDTO;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,14 +16,41 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         initComponents();
         setSize(650,430);
         setTitle("Khám bệnh");
-        loadCbbTenBS();
         txtYeuCauKham.setEditable(false);
+        loadCbbTenBS();
+        loadtblDichVu();
         setVisible(true);
     }
     public void loadCbbTenBS() {
+        ArrayList<String> dsBS = new ArrayList<String>();        
+        dsBS.removeAll(dsBS);
+        txtYeuCauKham.setText("");
         BacSiBUS bacsiBUS = new BacSiBUS();
-        ArrayList<String> dsBS = bacsiBUS.getTenBS();
+        dsBS = bacsiBUS.getTenBS();
         cbbBacSiKham.setModel(new DefaultComboBoxModel <> (dsBS.toArray(new String[0])));
+    }
+    
+    DefaultTableModel tblModelDV;
+    public void loadtblDichVu () {
+        tblModelDV = new DefaultTableModel();
+        String tit[] = {"Mã dịch vụ", "Tên dịch vụ", "Giá"};
+        tblModelDV.setColumnIdentifiers(tit);
+
+        ArrayList<DichVuDTO> arr = new ArrayList<DichVuDTO>();
+        DichVuBUS dichvuBUS = new DichVuBUS();
+        arr = dichvuBUS.getAllDichVu();
+
+        DichVuDTO dichvuDTO = new DichVuDTO();
+        for (int i = 0; i < arr.size(); i++) {
+            dichvuDTO = arr.get(i);
+            String maDV = dichvuDTO.getMaDV();
+            String tenDV = dichvuDTO.getTenDV();
+            long donGia = dichvuDTO.getDonGia();
+            Object row[] = {maDV,tenDV,donGia};
+            tblModelDV.addRow(row);
+        }
+        tblDichVu.setModel(tblModelDV);
+        setVisible(true);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -43,10 +73,10 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         dtcNgayKham = new com.toedter.calendar.JDateChooser();
         txtYeuCauKham = new javax.swing.JTextField();
         txtKetLuan = new javax.swing.JTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tbtDichVu = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tbtDichVuDuocChon = new javax.swing.JTable();
+        tblDichVu = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblDichVuDuocChon = new javax.swing.JTable();
         btnThem = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -117,7 +147,7 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
 
         txtKetLuan.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
-        tbtDichVu.setModel(new javax.swing.table.DefaultTableModel(
+        tblDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -128,9 +158,9 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(tbtDichVu);
+        jScrollPane4.setViewportView(tblDichVu);
 
-        tbtDichVuDuocChon.setModel(new javax.swing.table.DefaultTableModel(
+        tblDichVuDuocChon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -141,7 +171,7 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(tbtDichVuDuocChon);
+        jScrollPane3.setViewportView(tblDichVuDuocChon);
 
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem.setText("Thêm");
@@ -266,8 +296,8 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblTenBN;
     private javax.swing.JLabel lblTenBS;
     private javax.swing.JLabel lblYeuCauKham;
-    private javax.swing.JTable tbtDichVu;
-    private javax.swing.JTable tbtDichVuDuocChon;
+    private javax.swing.JTable tblDichVu;
+    private javax.swing.JTable tblDichVuDuocChon;
     private javax.swing.JTextField txtKetLuan;
     private javax.swing.JTextField txtYeuCauKham;
     // End of variables declaration//GEN-END:variables
