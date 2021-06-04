@@ -87,13 +87,13 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblMaBN5" min="-2" pref="128" max="-2" attributes="0"/>
+                              <Component id="lblDSDichVu" min="-2" pref="128" max="-2" attributes="0"/>
                               <Component id="jScrollPane4" min="-2" pref="230" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="lblMaBN6" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblDSDichVuDuocChon" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane3" alignment="1" min="-2" pref="256" max="-2" attributes="0"/>
@@ -101,32 +101,32 @@
                       </Group>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="lblMaBN4" min="-2" pref="103" max="-2" attributes="0"/>
+                              <Component id="lblKetLuan" min="-2" pref="103" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtMaBN1" max="32767" attributes="0"/>
+                              <Component id="txtKetLuan" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblMaBN" min="-2" pref="103" max="-2" attributes="0"/>
+                                      <Component id="lblTenBS" min="-2" pref="103" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="cbbBacSiKham" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblMaBN2" min="-2" pref="103" max="-2" attributes="0"/>
+                                      <Component id="lblTenBN" min="-2" pref="103" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="cbbBacSiKham1" min="-2" pref="165" max="-2" attributes="0"/>
+                                      <Component id="cbbBenhNhan" min="-2" pref="165" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblMaBN3" min="-2" pref="103" max="-2" attributes="0"/>
+                                      <Component id="lblYeuCauKham" min="-2" pref="103" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtMaBN" max="32767" attributes="0"/>
+                                      <Component id="txtYeuCauKham" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblMaBN1" min="-2" pref="103" max="-2" attributes="0"/>
+                                      <Component id="lblNgayKham" min="-2" pref="103" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="dtcNgayKham" min="-2" pref="135" max="-2" attributes="0"/>
                                   </Group>
@@ -138,7 +138,7 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
-                  <Component id="btnDatLichKham" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnThem" min="-2" pref="127" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -150,36 +150,36 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblMaBN" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTenBS" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cbbBacSiKham" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblMaBN2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbbBacSiKham1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTenBN" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbbBenhNhan" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="lblMaBN1" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNgayKham" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="dtcNgayKham" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblMaBN3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtMaBN" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblYeuCauKham" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtYeuCauKham" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblMaBN4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtMaBN1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblKetLuan" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtKetLuan" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblMaBN5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblMaBN6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblDSDichVu" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblDSDichVuDuocChon" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -187,14 +187,14 @@
                       <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                  <Component id="btnDatLichKham" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnThem" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="73" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblMaBN">
+        <Component class="javax.swing.JLabel" name="lblTenBS">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -205,7 +205,7 @@
             <Property name="text" type="java.lang.String" value="B&#xe1;c s&#x129; kh&#xe1;m"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblMaBN1">
+        <Component class="javax.swing.JLabel" name="lblNgayKham">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -216,7 +216,7 @@
             <Property name="text" type="java.lang.String" value="Ng&#xe0;y kh&#xe1;m"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblMaBN2">
+        <Component class="javax.swing.JLabel" name="lblTenBN">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -227,7 +227,7 @@
             <Property name="text" type="java.lang.String" value="T&#xea;n b&#x1ec7;nh nh&#xe2;n"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblMaBN3">
+        <Component class="javax.swing.JLabel" name="lblYeuCauKham">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -238,7 +238,7 @@
             <Property name="text" type="java.lang.String" value="Y&#xea;u c&#x1ea7;u kh&#xe1;m"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblMaBN4">
+        <Component class="javax.swing.JLabel" name="lblKetLuan">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -249,7 +249,7 @@
             <Property name="text" type="java.lang.String" value="K&#x1ebf;t lu&#x1ead;n"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblMaBN5">
+        <Component class="javax.swing.JLabel" name="lblDSDichVu">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -260,7 +260,7 @@
             <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch d&#x1ecb;ch v&#x1ee5;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblMaBN6">
+        <Component class="javax.swing.JLabel" name="lblDSDichVuDuocChon">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -286,7 +286,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbbBacSiKham1">
+        <Component class="javax.swing.JComboBox" name="cbbBenhNhan">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="0"/>
@@ -308,14 +308,14 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtMaBN">
+        <Component class="javax.swing.JTextField" name="txtYeuCauKham">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="0"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtMaBN1">
+        <Component class="javax.swing.JTextField" name="txtKetLuan">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="0"/>
@@ -329,7 +329,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable3">
+            <Component class="javax.swing.JTable" name="tbtDichVu">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
@@ -350,7 +350,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable4">
+            <Component class="javax.swing.JTable" name="tbtDichVuDuocChon">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
@@ -364,12 +364,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="btnDatLichKham">
+        <Component class="javax.swing.JButton" name="btnThem">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&#x110;&#x1eb7;t l&#x1ecb;ch kh&#xe1;m"/>
+            <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
           </Properties>
         </Component>
       </SubComponents>
