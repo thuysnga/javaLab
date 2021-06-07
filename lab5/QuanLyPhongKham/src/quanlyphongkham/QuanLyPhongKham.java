@@ -1,7 +1,6 @@
 package quanlyphongkham;
 
 import GUI.*;
-// streak 5/6
 /**
  *
  * @author THUYNGA
