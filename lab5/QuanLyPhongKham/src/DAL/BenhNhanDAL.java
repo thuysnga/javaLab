@@ -3,6 +3,7 @@ package DAL;
 import DBUtils.*;
 import DTO.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -67,5 +68,35 @@ public class BenhNhanDAL {
             }
         }
         return result;
+    }
+    public void getMaVaTen(KhamBenhDTO khambenhDTO, ArrayList listMa, ArrayList listTen) {
+        String sqlSeclect = "select KHAMBENH.MABN, TENBN from KHAMBENH,BENHNHAN " +
+                            "where KHAMBENH.MABN = BENHNHAN.MABN and MABS = ? and NGAYKHAM = ? " +
+                            " and (THANHTOAN = 0 or THANHTOAN is null);";
+        try {
+            dbu = new DBUtils();
+            conn = dbu.createConn();
+            pres = conn.prepareStatement(sqlSeclect);
+            pres.setString(1, khambenhDTO.getMaBS());
+            java.sql.Date sqldate = new java.sql.Date(khambenhDTO.getNgayKham().getTime());
+            pres.setDate(2,sqldate);
+            System.out.println(rs);
+            rs = pres.executeQuery();
+            while (rs.next()) {
+                listMa.add(rs.getString("mabn"));
+                listTen.add(rs.getString("tenbn"));                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                pres.close();
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -2,6 +2,8 @@ package BUS;
 
 import DAL.BenhNhanDAL;
 import DTO.BenhNhanDTO;
+import DTO.KhamBenhDTO;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,4 +17,7 @@ public class BenhNhanBUS {
     public String getTenBN(String maBN) { 
         return benhnhanDAL.getTenBN(maBN);
     }    
+    public void getMaVaTen(KhamBenhDTO khambenhDTO, ArrayList listMa, ArrayList listTen) {
+        benhnhanDAL.getMaVaTen(khambenhDTO, listMa, listTen);
+    }
 }

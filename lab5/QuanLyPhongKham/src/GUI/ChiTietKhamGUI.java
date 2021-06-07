@@ -1,8 +1,10 @@
 package GUI;
 
 import BUS.BacSiBUS;
+import BUS.BenhNhanBUS;
 import BUS.DichVuBUS;
 import DTO.DichVuDTO;
+import DTO.KhamBenhDTO;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +14,11 @@ import javax.swing.table.DefaultTableModel;
  * @author THUYNGA
  */
 public class ChiTietKhamGUI extends javax.swing.JFrame {
+    ArrayList<String> dsTenBS = new ArrayList<String>();        
+    ArrayList<String> dsMaBS = new ArrayList<String>();        
+    ArrayList<String> dsTenBN = new ArrayList<String>();        
+    ArrayList<String> dsMaBN = new ArrayList<String>();        
+
     public ChiTietKhamGUI() {
         initComponents();
         setSize(650,430);
@@ -19,17 +26,30 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         txtYeuCauKham.setEditable(false);
         loadCbbTenBS();
         loadtblDichVu();
+        loadtblDVDuocChon();
         setVisible(true);
     }
     public void loadCbbTenBS() {
-        ArrayList<String> dsBS = new ArrayList<String>();        
-        dsBS.removeAll(dsBS);
+        dsTenBS.removeAll(dsTenBS);
+        dsMaBS.removeAll(dsMaBS);
         txtYeuCauKham.setText("");
         BacSiBUS bacsiBUS = new BacSiBUS();
-        dsBS = bacsiBUS.getTenBS();
-        cbbBacSiKham.setModel(new DefaultComboBoxModel <> (dsBS.toArray(new String[0])));
+        dsTenBS = bacsiBUS.getTenBS();
+        cbbBacSiKham.setModel(new DefaultComboBoxModel <> (dsTenBS.toArray(new String[0])));
     }
-    
+    public void loadCbbTenBN() {
+        dsTenBN.removeAll(dsTenBN);
+        dsMaBN.removeAll(dsMaBN);
+        txtYeuCauKham.setText("");
+        KhamBenhDTO kbDTO = new KhamBenhDTO();
+        BacSiBUS bacsiBUS = new BacSiBUS();
+        dsMaBS = bacsiBUS.getMaBS();
+        kbDTO.setMaBS(dsMaBS.get(cbbBacSiKham.getSelectedIndex()));
+        kbDTO.setNgayKham(dtcNgayKham.getDate());
+        BenhNhanBUS bnBUS = new BenhNhanBUS();
+        bnBUS.getMaVaTen(kbDTO, dsMaBN, dsTenBN);
+        cbbBenhNhan.setModel(new DefaultComboBoxModel<String> (dsTenBN.toArray(new String[0])));
+    }
     DefaultTableModel tblModelDV;
     public void loadtblDichVu () {
         tblModelDV = new DefaultTableModel();
@@ -50,6 +70,14 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
             tblModelDV.addRow(row);
         }
         tblDichVu.setModel(tblModelDV);
+        setVisible(true);
+    }
+    DefaultTableModel tblModelDVDuocChon;
+    public void loadtblDVDuocChon() {
+        tblModelDVDuocChon = new DefaultTableModel();
+        String tit[] = {"Tên dịch vụ","Số lượng"};
+        tblModelDVDuocChon.setColumnIdentifiers(tit);
+        tblDichVuDuocChon.setModel(tblModelDVDuocChon);
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -135,17 +163,16 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         lblDSDichVuDuocChon.setForeground(new java.awt.Color(0, 102, 204));
         lblDSDichVuDuocChon.setText("Danh sách dịch vụ được bác sĩ chọn");
 
-        cbbBacSiKham.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         cbbBacSiKham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên bác sĩ" }));
+        cbbBacSiKham.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbBacSiKhamActionPerformed(evt);
+            }
+        });
 
-        cbbBenhNhan.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         cbbBenhNhan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên bệnh nhân" }));
 
         dtcNgayKham.setMinSelectableDate(new java.util.Date(-62135791133000L));
-
-        txtYeuCauKham.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        txtKetLuan.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         tblDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -276,6 +303,10 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbbBacSiKhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbBacSiKhamActionPerformed
+        loadCbbTenBN();
+    }//GEN-LAST:event_cbbBacSiKhamActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThem;
