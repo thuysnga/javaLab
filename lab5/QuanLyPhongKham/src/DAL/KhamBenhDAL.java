@@ -81,4 +81,39 @@ public class KhamBenhDAL {
         }
         return rel;
     }
+    public KhamBenhDTO getThongTin(String maKB) {
+        String sqlSelect = "select * from KHAMBENH where MAKB = '" + maKB + "';" ;
+        try {
+            dbu = new DBUtils();
+            conn = dbu.createConn();
+            stat = conn.createStatement();
+            rs = stat.executeQuery(sqlSelect);
+            if (rs.first() == false) 
+                return null;
+            else {
+                KhamBenhDTO khambenhDTO = new KhamBenhDTO();
+                khambenhDTO.setMaKB(maKB);
+                khambenhDTO.setMaBN(rs.getString("makb"));
+                khambenhDTO.setMaBS(rs.getString("mabs"));
+                khambenhDTO.setNgayKham(rs.getDate("ngaykham"));
+                khambenhDTO.setYeuCauKham(rs.getString("yeucaukham"));
+                khambenhDTO.setKetLuan(rs.getString("ketluan"));
+                khambenhDTO.setTHANHTOAN(rs.getBoolean("thanhtoan"));
+                return khambenhDTO;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                stat.close();
+                if (rs != null) 
+                    rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }        
+        return null;
+    }
 }

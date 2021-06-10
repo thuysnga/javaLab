@@ -1,5 +1,13 @@
 package GUI;
 
+import BUS.KhamBenhBUS;
+import DTO.KhamBenhDTO;
+import java.io.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.awt.Desktop;
+import javax.swing.JOptionPane;
+import javax.swing.text.Document;
 /**
  *
  * @author THUYNGA
@@ -16,22 +24,22 @@ public class Lab6_report extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lblMaKB = new javax.swing.JLabel();
         lblMaBN = new javax.swing.JLabel();
-        lbltenBN = new javax.swing.JLabel();
+        lblMaBS = new javax.swing.JLabel();
         lblNgayKham = new javax.swing.JLabel();
         lblYeuCauKham = new javax.swing.JLabel();
         lblKetLuan = new javax.swing.JLabel();
         lblTongTien = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        cbxThanhToan = new javax.swing.JCheckBox();
+        txtMaKB = new javax.swing.JTextField();
+        txtMaBN = new javax.swing.JTextField();
+        txtMaBS = new javax.swing.JTextField();
+        txtNgayKham = new javax.swing.JTextField();
+        txtYeuCauKham = new javax.swing.JTextField();
+        txtKetLuan = new javax.swing.JTextField();
+        txtTongTien = new javax.swing.JTextField();
+        btnThanhToan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thanh toán khám bệnh");
@@ -40,7 +48,7 @@ public class Lab6_report extends javax.swing.JFrame {
 
         lblMaBN.setText("Mã bệnh nhân");
 
-        lbltenBN.setText("Tên bệnh nhân");
+        lblMaBS.setText("Mã bác sĩ");
 
         lblNgayKham.setText("Ngày khám");
 
@@ -63,28 +71,29 @@ public class Lab6_report extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jCheckBox1.setText("Đã thanh toán");
+        cbxThanhToan.setText("Đã thanh toán");
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(120, 22));
-
-        jTextField4.setPreferredSize(new java.awt.Dimension(120, 22));
-
-        jTextField5.setPreferredSize(new java.awt.Dimension(120, 22));
-
-        jTextField6.setPreferredSize(new java.awt.Dimension(120, 22));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+        txtMaKB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMaKBKeyReleased(evt);
             }
         });
 
-        jTextField7.setPreferredSize(new java.awt.Dimension(120, 22));
+        txtMaBN.setPreferredSize(new java.awt.Dimension(120, 22));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setText("Thanh toán");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        txtNgayKham.setPreferredSize(new java.awt.Dimension(120, 22));
+
+        txtYeuCauKham.setPreferredSize(new java.awt.Dimension(120, 22));
+
+        txtKetLuan.setPreferredSize(new java.awt.Dimension(120, 22));
+
+        txtTongTien.setPreferredSize(new java.awt.Dimension(120, 22));
+
+        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnThanhToan.setText("Thanh toán");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnThanhToanActionPerformed(evt);
             }
         });
 
@@ -98,43 +107,43 @@ public class Lab6_report extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jCheckBox1))
+                        .addComponent(cbxThanhToan))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblMaKB)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1))
+                                .addComponent(txtMaKB))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblKetLuan)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtKetLuan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblMaBN)
                                     .addComponent(lblNgayKham))
                                 .addGap(21, 21, 21)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtMaBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNgayKham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(38, 38, 38)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblTongTien)
                                 .addGap(47, 47, 47)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtTongTien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbltenBN)
+                                    .addComponent(lblMaBS)
                                     .addComponent(lblYeuCauKham))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))))))
+                                    .addComponent(txtMaBS)
+                                    .addComponent(txtYeuCauKham, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))))))
                 .addContainerGap(55, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(237, 237, 237))
         );
         jPanel1Layout.setVerticalGroup(
@@ -143,36 +152,36 @@ public class Lab6_report extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMaKB)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMaKB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMaBN)
-                    .addComponent(lbltenBN)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblMaBS)
+                    .addComponent(txtMaBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMaBS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNgayKham)
                     .addComponent(lblYeuCauKham)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNgayKham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtYeuCauKham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblKetLuan)
                         .addComponent(lblTongTien)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtKetLuan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1)
+                        .addComponent(cbxThanhToan)
                         .addGap(162, 162, 162))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(29, Short.MAX_VALUE))))
         );
 
@@ -193,33 +202,42 @@ public class Lab6_report extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        
+    }//GEN-LAST:event_btnThanhToanActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void txtMaKBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKBKeyReleased
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            KhamBenhDTO khambenhDTO = new KhamBenhDTO();
+            KhamBenhBUS khambenhBUS = new KhamBenhBUS();
+            khambenhDTO = khambenhBUS.getThongTin(txtMaKB.getText());
+            txtMaBN.setText(khambenhDTO.getMaBN());
+            txtMaBS.setText(khambenhDTO.getMaBS());
+            txtNgayKham.setText(khambenhDTO.getNgayKham().toString());
+            txtYeuCauKham.setText(khambenhDTO.getYeuCauKham());
+            txtKetLuan.setText(khambenhDTO.getKetLuan());
+        }
+    }//GEN-LAST:event_txtMaKBKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JButton btnThanhToan;
+    private javax.swing.JCheckBox cbxThanhToan;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JLabel lblKetLuan;
     private javax.swing.JLabel lblMaBN;
+    private javax.swing.JLabel lblMaBS;
     private javax.swing.JLabel lblMaKB;
     private javax.swing.JLabel lblNgayKham;
     private javax.swing.JLabel lblTongTien;
     private javax.swing.JLabel lblYeuCauKham;
-    private javax.swing.JLabel lbltenBN;
+    private javax.swing.JTextField txtKetLuan;
+    private javax.swing.JTextField txtMaBN;
+    private javax.swing.JTextField txtMaBS;
+    private javax.swing.JTextField txtMaKB;
+    private javax.swing.JTextField txtNgayKham;
+    private javax.swing.JTextField txtTongTien;
+    private javax.swing.JTextField txtYeuCauKham;
     // End of variables declaration//GEN-END:variables
 }

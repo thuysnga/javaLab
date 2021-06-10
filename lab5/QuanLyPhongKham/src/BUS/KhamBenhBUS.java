@@ -15,4 +15,7 @@ public class KhamBenhBUS {
     public String layMaKB () {
         return khambenhDAL.layMaKB();
     }
+    public KhamBenhDTO getThongTin(String maKB) {
+        return khambenhDAL.getThongTin(maKB);
+    }
 }
