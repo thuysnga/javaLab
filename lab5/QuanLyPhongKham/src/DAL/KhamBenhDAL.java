@@ -93,7 +93,7 @@ public class KhamBenhDAL {
             else {
                 KhamBenhDTO khambenhDTO = new KhamBenhDTO();
                 khambenhDTO.setMaKB(maKB);
-                khambenhDTO.setMaBN(rs.getString("makb"));
+                khambenhDTO.setMaBN(rs.getString("mabn"));
                 khambenhDTO.setMaBS(rs.getString("mabs"));
                 khambenhDTO.setNgayKham(rs.getDate("ngaykham"));
                 khambenhDTO.setYeuCauKham(rs.getString("yeucaukham"));
@@ -113,7 +113,7 @@ public class KhamBenhDAL {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }        
+        } 
         return null;
     }
 }

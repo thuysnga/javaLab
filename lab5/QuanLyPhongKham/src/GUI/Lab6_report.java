@@ -1,13 +1,14 @@
 package GUI;
 
 import BUS.KhamBenhBUS;
+import DBUtils.DBUtils;
 import DTO.KhamBenhDTO;
 import java.io.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import java.awt.Desktop;
 import javax.swing.JOptionPane;
-import javax.swing.text.Document;
+import java.sql.*;
 /**
  *
  * @author THUYNGA
@@ -39,7 +40,7 @@ public class Lab6_report extends javax.swing.JFrame {
         txtYeuCauKham = new javax.swing.JTextField();
         txtKetLuan = new javax.swing.JTextField();
         txtTongTien = new javax.swing.JTextField();
-        btnThanhToan = new javax.swing.JButton();
+        btnInHoaDon = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thanh toán khám bệnh");
@@ -89,11 +90,11 @@ public class Lab6_report extends javax.swing.JFrame {
 
         txtTongTien.setPreferredSize(new java.awt.Dimension(120, 22));
 
-        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnThanhToan.setText("Thanh toán");
-        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+        btnInHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnInHoaDon.setText("In hóa đơn");
+        btnInHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThanhToanActionPerformed(evt);
+                btnInHoaDonActionPerformed(evt);
             }
         });
 
@@ -143,7 +144,7 @@ public class Lab6_report extends javax.swing.JFrame {
                 .addContainerGap(55, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnInHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(237, 237, 237))
         );
         jPanel1Layout.setVerticalGroup(
@@ -181,7 +182,7 @@ public class Lab6_report extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnInHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(29, Short.MAX_VALUE))))
         );
 
@@ -202,9 +203,112 @@ public class Lab6_report extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+    private void btnInHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInHoaDonActionPerformed
+        Document document = new Document(PageSize.A4);
+        String filename = "HD_" + txtMaKB.getText();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("reports/" + filename + ".pdf"));
+            document.open();
+            document.addAuthor("Nguyễn Thị Thúy Nga");
+            document.addCreationDate();
+            document.addCreator("QLKB");
+            document.addTitle("Hóa đơn khám bệnh");
+            document.addSubject("Hóa đơn khám bệnh");
+            
+            //Dinh nghia cac font chu duoc su dung
+            
+            File filefontTieuDe = new File ("fonts/vuArialBold.ttf");
+            BaseFont bfTieuDe = BaseFont.createFont(filefontTieuDe.getAbsolutePath(),BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font fontTieuDe1 = new Font(bfTieuDe,16);
+            fontTieuDe1.setColor(BaseColor.BLUE);
+            Font fontTieuDe2 = new Font(bfTieuDe,13);
+            fontTieuDe2.setColor(BaseColor.BLUE);
+            Font fontTieuDe3 = new Font(bfTieuDe,13);
+            Font fontTieuDe4 = new Font(bfTieuDe,12);
+            
+            File filefontNoiDung = new File ("fonts/vuArial.ttf");
+            BaseFont bfNoiDung = BaseFont.createFont(filefontNoiDung.getAbsolutePath(),BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font fontNoiDung1 = new Font(bfNoiDung,13);
+            Font fontNoiDung2 = new Font(bfNoiDung,12);
+            
+            // chen logo
+            Image logo = Image.getInstance("images/hospital.png");
+            logo.setAbsolutePosition(80, 750);
+            logo.scaleAbsolute(50, 50);
+            document.add(logo);
+            
+            Paragraph prgTenPK = new Paragraph("PHÒNG KHÁM ĐA KHOA HẠNH PHÚC",fontTieuDe2);
+            prgTenPK.setIndentationLeft(100);
+            document.add(prgTenPK);
+            
+            Paragraph prgDiaChi = new Paragraph("15 Mai Hắc Đế, phường Tân An, thành phố Buôn Ma Thuột",fontNoiDung2);
+            prgDiaChi.setIndentationLeft(100);
+            document.add(prgDiaChi);
+            
+            Paragraph prgSDT = new Paragraph("0888. 87. 88. 87",fontNoiDung2);
+            prgSDT.setIndentationLeft(100);
+            document.add(prgSDT);
+            
+            Paragraph prgTieuDe = new Paragraph("HÓA ĐƠN DỊCH VỤ",fontTieuDe1);
+            prgTieuDe.setAlignment(Element.ALIGN_CENTER);
+            prgTieuDe.setSpacingAfter(0);
+            prgTieuDe.setSpacingAfter(0);
+            document.add(prgTieuDe);
+            
+            String NgKham = "";
+            String TenBS = "";
+            
+            try {
+                Connection conn = new DBUtils().createConn();
+                String strSQL = "select * from BENHNHAN, KHAMBENH, BACSI WHERE BENHNHAN.MABN = KHAMBENH.MABN AND KHAMBENH.MABS = BACSI.MABS AND MAKB = ? ";
+                PreparedStatement pres = conn.prepareStatement(strSQL);
+                pres.setString(1, txtMaKB.getText());
+                ResultSet rs = pres.executeQuery();
+                if (rs.first()) {
+                    List listTTKH = new List(List.UNORDERED);
+                    listTTKH.add(new ListItem("Họ và tên bệnh nhân : " + rs.getString("tenBN").toUpperCase(),fontTieuDe3));
+                    listTTKH.add(new ListItem("Mã bệnh nhân : " + rs.getString("BENHNHAN.maBN"),fontNoiDung1));
+                    if (rs.getBoolean("gioitinh") == true) 
+                        listTTKH.add(new ListItem("Giới tính : Nam ", fontNoiDung1));
+                    else
+                        listTTKH.add(new ListItem("Giới tính : Nữ ", fontNoiDung1));
+                    
+                    String[] arrayNgSinh = rs.getString("NgSinh").split("-");
+                    String ngay = arrayNgSinh[2];
+                    String thang = arrayNgSinh[1];
+                    String nam = arrayNgSinh[0];
+                    listTTKH.add(new ListItem("Ngày sinh : " + ngay + "/" + thang + "/" + nam, fontNoiDung1));
+                    listTTKH.add(new ListItem("Địa chỉ : " + rs.getString("DChi"), fontNoiDung1));
+                    listTTKH.add(new ListItem("Số điện thoại : " + rs.getString("Dthoai"), fontNoiDung1));
+                    listTTKH.add(new ListItem("Yêu cầu khám : " + rs.getString("YeuCauKham"), fontNoiDung1));
+                    listTTKH.add(new ListItem("Kết luận : " + rs.getString("KetLuan"), fontTieuDe3));
+                    document.add(listTTKH);
+                    NgKham = rs.getString("NgayKham");
+                    TenBS = rs.getString("TenBS");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+                    
+            document.close();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            File file = new File("reports/" + filename + ".pdf");
+            if (!Desktop.isDesktopSupported()) {
+                System.out.println("Not supported.");
+                return;
+            }
+            Desktop desktop = Desktop.getDesktop();
+            if (file.exists())
+                desktop.open(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
-    }//GEN-LAST:event_btnThanhToanActionPerformed
+    }//GEN-LAST:event_btnInHoaDonActionPerformed
 
     private void txtMaKBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKBKeyReleased
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -220,7 +324,7 @@ public class Lab6_report extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaKBKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnThanhToan;
+    private javax.swing.JButton btnInHoaDon;
     private javax.swing.JCheckBox cbxThanhToan;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
