@@ -1,15 +1,14 @@
 package GUI;
 
-import BUS.KhamBenhBUS;
 import DBUtils.DBUtils;
-import DTO.KhamBenhDTO;
 import java.io.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import java.awt.Desktop;
-import javax.swing.JOptionPane;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
+import java.text.NumberFormat;
+import java.util.Locale;
 /**
  *
  * @author THUYNGA
@@ -233,7 +232,7 @@ public class Lab6_report extends javax.swing.JFrame {
             BaseFont bfNoiDung = BaseFont.createFont(filefontNoiDung.getAbsolutePath(),BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font fontNoiDung1 = new Font(bfNoiDung,13);
             Font fontNoiDung2 = new Font(bfNoiDung,12);
-            
+            Font fontNoiDung3 = new Font(bfNoiDung,11);            
             // chen logo
             Image logo = Image.getInstance("images/hospital.png");
             logo.setAbsolutePosition(80, 750);
@@ -254,8 +253,8 @@ public class Lab6_report extends javax.swing.JFrame {
             
             Paragraph prgTieuDe = new Paragraph("HÓA ĐƠN DỊCH VỤ",fontTieuDe1);
             prgTieuDe.setAlignment(Element.ALIGN_CENTER);
-            prgTieuDe.setSpacingAfter(0);
-            prgTieuDe.setSpacingAfter(0);
+            prgTieuDe.setSpacingAfter(10);
+            prgTieuDe.setSpacingAfter(10);
             document.add(prgTieuDe);
             
             String NgKham = "";
@@ -293,6 +292,107 @@ public class Lab6_report extends javax.swing.JFrame {
                 e.printStackTrace();
             }
                     
+            Paragraph prgDichVu = new Paragraph("Các dịch vụ đã sử dụng : ",fontTieuDe3);
+            prgDichVu.setSpacingAfter(10);
+            prgDichVu.setSpacingAfter(10);
+            document.add(prgDichVu); 
+            PdfPTable tableDV = new PdfPTable(6);
+            tableDV.setWidthPercentage(80);
+            tableDV.setSpacingBefore(10);
+            tableDV.setSpacingAfter(10);
+            float [] table_columnWidths = {50,120,150,100,80,100};
+            tableDV.setWidths(table_columnWidths);
+            PdfPCell cellTDTT = new PdfPCell(new Paragraph("STT",fontTieuDe4));
+            cellTDTT.setBorderColor(BaseColor.BLACK);
+            cellTDTT.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellTDTT.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cellTDTT.setMinimumHeight(30);
+            tableDV.addCell(cellTDTT);
+            PdfPCell cellTDMaDV = new PdfPCell(new Paragraph("Mã dịch vụ",fontTieuDe4));
+            cellTDMaDV.setBorderColor(BaseColor.BLACK);
+            cellTDMaDV.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellTDMaDV.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableDV.addCell(cellTDMaDV);
+            PdfPCell cellTDTenDV = new PdfPCell(new Paragraph("Tên dịch vụ",fontTieuDe4));
+            cellTDTenDV.setBorderColor(BaseColor.BLACK);
+            cellTDTenDV.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellTDTenDV.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableDV.addCell(cellTDTenDV);
+            PdfPCell cellTDDonGia = new PdfPCell(new Paragraph("Đơn giá",fontTieuDe4));
+            cellTDDonGia.setBorderColor(BaseColor.BLACK);
+            cellTDDonGia.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellTDDonGia.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableDV.addCell(cellTDDonGia);
+            PdfPCell cellTDSL = new PdfPCell(new Paragraph("Số lượng",fontTieuDe4));
+            cellTDSL.setBorderColor(BaseColor.BLACK);
+            cellTDSL.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellTDSL.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableDV.addCell(cellTDSL);
+            PdfPCell cellTDThanhTien = new PdfPCell(new Paragraph("Thành Tiền",fontTieuDe4));
+            cellTDThanhTien.setBorderColor(BaseColor.BLACK);
+            cellTDThanhTien.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellTDThanhTien.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableDV.addCell(cellTDThanhTien);
+            Connection conn = new DBUtils().createConn();
+            try {
+                String sql = "select * from DICHVU, THUPHI where MAKB = ? AND DICHVU.MADV = THUPHI.MADV;";
+                PreparedStatement pres = conn.prepareStatement(sql);
+                pres.setString(1, txtMaKB.getText());
+                ResultSet rs = pres.executeQuery();
+                int TongTien = 0;
+                int TT = 1;
+                while (rs.next()) {
+                    PdfPCell cellTT = new PdfPCell(new Paragraph(String.valueOf(TT),fontNoiDung3));
+                    cellTT.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cellTT.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    cellTT.setMinimumHeight(20);
+                    tableDV.addCell(cellTT);
+                    
+                    PdfPCell cellMaDV = new PdfPCell(new Paragraph(rs.getString("DICHVU.MADV"),fontNoiDung3));
+                    cellMaDV.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cellMaDV.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    tableDV.addCell(cellMaDV);
+                    
+                    PdfPCell cellTenDV = new PdfPCell(new Paragraph(rs.getString("TENDV"),fontNoiDung3));
+                    cellTenDV.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+                    cellTenDV.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    tableDV.addCell(cellTenDV);
+                    
+                    PdfPCell cellDonGia = new PdfPCell(new Paragraph(DinhDangTienTe(rs.getInt("DICHVU.DONGIA")),fontNoiDung3));
+                    cellDonGia.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cellDonGia.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    tableDV.addCell(cellDonGia);
+                    
+                    PdfPCell cellSoLuong = new PdfPCell(new Paragraph(rs.getString("SOLUONG"),fontNoiDung3));
+                    cellSoLuong.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cellSoLuong.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    tableDV.addCell(cellSoLuong);
+                    
+                    PdfPCell cellThanhTien = new PdfPCell(new Paragraph(DinhDangTienTe(rs.getInt("THANHTIEN")),fontNoiDung3));
+                    cellThanhTien.setPaddingLeft(10);
+                    cellThanhTien.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cellThanhTien.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    tableDV.addCell(cellThanhTien);
+
+                    TongTien += rs.getInt("THANHTIEN");
+                    TT++;
+                }
+                
+                PdfPCell cellTongCong = new PdfPCell(new Paragraph("TỔNG CỘNG : ",fontTieuDe4));
+                cellTongCong.setColspan(5);
+                cellTongCong.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cellTongCong.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cellTongCong.setMinimumHeight(20);
+                tableDV.addCell(cellTongCong);
+                    
+                PdfPCell cellTongTien = new PdfPCell(new Paragraph(DinhDangTienTe(TongTien),fontTieuDe4));
+                cellTongTien.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+                cellTongTien.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                tableDV.addCell(cellTongTien);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            document.add(tableDV);
             document.close();
             writer.close();
         } catch (Exception e) {
@@ -318,14 +418,44 @@ public class Lab6_report extends javax.swing.JFrame {
         String tit[] = {"Mã dịch vụ", "Tên dịch vụ", "Số lượng","Thành tiền"};
         tblModelDV.setColumnIdentifiers(tit);
         tblDichVu.setModel(tblModelDV);
-        
         setVisible(true);
+    }
+
+    public void loadData() {
+        Connection conn = new DBUtils().createConn();
+        try {
+            String sql = "select * from DICHVU, THUPHI where MAKB = ? AND DICHVU.MADV = THUPHI.MADV;";
+            PreparedStatement pres = conn.prepareStatement(sql);
+            pres.setString(1, txtMaKB.getText());
+            ResultSet rs = pres.executeQuery();
+            int TongTien = 0;
+            while (rs.next()) {
+                String [] rows =  new String[4];
+                rows[0] = rs.getString("DICHVU.MADV");
+                rows[1] = rs.getString("TENDV");
+                rows[2] = rs.getString("SOLUONG");
+                rows[3] = rs.getString("THANHTIEN");
+                tblModelDV.addRow(rows);
+                tblDichVu.setModel(tblModelDV);
+                TongTien += rs.getInt("THANHTIEN");
+            }
+            txtTongTien.setText(String.valueOf(TongTien));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String DinhDangTienTe(int SoTien) {
+        Locale localeEN = new Locale("en","EN");
+        NumberFormat en = NumberFormat.getInstance(localeEN);
+        String str = en.format(SoTien);
+        return str;
     }
     
     private void txtMaKBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKBKeyReleased
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            Connection conn = new DBUtils().createConn();
             try {
-                Connection conn = new DBUtils().createConn();
                 String strSQL = "select * from KHAMBENH where MAKB = ? ;";
                 PreparedStatement pres = conn.prepareStatement(strSQL);
                 pres.setString(1, txtMaKB.getText());
@@ -337,7 +467,7 @@ public class Lab6_report extends javax.swing.JFrame {
                     txtYeuCauKham.setText(rs.getString("YEUCAUKHAM"));
                     txtKetLuan.setText(rs.getString("KetLuan"));
                     if (rs.getBoolean("THANHTOAN") == true)
-                        ckbThanhToan.setEnabled(false);
+                        ckbThanhToan.setSelected(true);
                 }
                 conn.close();
                 pres.close();
@@ -345,6 +475,7 @@ public class Lab6_report extends javax.swing.JFrame {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            loadData();
         }
     }//GEN-LAST:event_txtMaKBKeyReleased
 
