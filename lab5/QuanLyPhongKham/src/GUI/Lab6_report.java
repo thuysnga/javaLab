@@ -1,6 +1,5 @@
 package GUI;
 
-import DBUtils.DBUtils;
 import java.io.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
@@ -19,6 +18,23 @@ public class Lab6_report extends javax.swing.JFrame {
         tblModelDV = new DefaultTableModel();
         loadTableDichVu();
         setVisible(true);
+    }
+    public Connection createConn () {
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String URL = "jdbc:mysql://localhost:3306/qlkb";
+            String USER = "root";
+            String PASS = "NGA.kiu47";
+            conn = DriverManager.getConnection(URL, USER, PASS);
+            if (conn == null)
+                System.out.println("Ket noi khong thanh cong.");
+            else
+                System.out.println("Ket noi thanh cong.");     
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -261,7 +277,7 @@ public class Lab6_report extends javax.swing.JFrame {
             String TenBS = "";
             
             try {
-                Connection conn = new DBUtils().createConn();
+                Connection conn = createConn();
                 String strSQL = "select * from BENHNHAN, KHAMBENH, BACSI WHERE BENHNHAN.MABN = KHAMBENH.MABN AND KHAMBENH.MABS = BACSI.MABS AND MAKB = ? ";
                 PreparedStatement pres = conn.prepareStatement(strSQL);
                 pres.setString(1, txtMaKB.getText());
@@ -333,7 +349,7 @@ public class Lab6_report extends javax.swing.JFrame {
             cellTDThanhTien.setHorizontalAlignment(Element.ALIGN_CENTER);
             cellTDThanhTien.setVerticalAlignment(Element.ALIGN_MIDDLE);
             tableDV.addCell(cellTDThanhTien);
-            Connection conn = new DBUtils().createConn();
+            Connection conn = createConn();
             try {
                 String sql = "select * from DICHVU, THUPHI where MAKB = ? AND DICHVU.MADV = THUPHI.MADV;";
                 PreparedStatement pres = conn.prepareStatement(sql);
@@ -393,6 +409,44 @@ public class Lab6_report extends javax.swing.JFrame {
                 e.printStackTrace();
             }
             document.add(tableDV);
+            
+            PdfPTable tableTTBS = new PdfPTable(2);
+            tableTTBS.setWidthPercentage(90);
+            tableTTBS.setSpacingBefore(10);
+            tableTTBS.setSpacingAfter(10);
+            float [] tableTTBS_columnWidths = {300,200};
+            tableTTBS.setWidths(tableTTBS_columnWidths);
+            PdfPCell cellGhiChu = new PdfPCell(new Paragraph("Ghi chú : ", fontNoiDung3));
+            cellGhiChu.setBorder(0);
+            cellGhiChu.setRowspan(3);
+            cellGhiChu.setHorizontalAlignment(Element.ALIGN_LEFT);
+            cellGhiChu.setVerticalAlignment(Element.ALIGN_TOP);
+            tableTTBS.addCell(cellGhiChu);
+            String[] arrayNgKham = NgKham.split("-");
+            String ngay = arrayNgKham[2];
+            String thang = arrayNgKham[1];
+            String nam = arrayNgKham[0];
+            
+            Paragraph prgNgKham = new Paragraph("Ngày " + ngay + " tháng " + thang + " năm " + nam +".",  fontNoiDung1);
+            PdfPCell cellNgKham = new PdfPCell(prgNgKham);
+            cellNgKham.setBorder(0);
+            cellNgKham.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellNgKham.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableTTBS.addCell(cellNgKham);
+            
+            PdfPCell cellBS = new PdfPCell(new Paragraph("Bác sĩ chuẩn đoán \n \n \n \n \n", fontTieuDe4));
+            cellBS.setBorder(0);
+            cellBS.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellBS.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableTTBS.addCell(cellBS);
+            
+            PdfPCell cellTenBS = new PdfPCell(new Paragraph(TenBS, fontTieuDe4));
+            cellTenBS.setBorder(0);
+            cellTenBS.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellTenBS.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableTTBS.addCell(cellTenBS);
+            document.add(tableTTBS);    
+
             document.close();
             writer.close();
         } catch (Exception e) {
@@ -422,7 +476,7 @@ public class Lab6_report extends javax.swing.JFrame {
     }
 
     public void loadData() {
-        Connection conn = new DBUtils().createConn();
+        Connection conn = createConn();
         try {
             String sql = "select * from DICHVU, THUPHI where MAKB = ? AND DICHVU.MADV = THUPHI.MADV;";
             PreparedStatement pres = conn.prepareStatement(sql);
@@ -454,7 +508,12 @@ public class Lab6_report extends javax.swing.JFrame {
     
     private void txtMaKBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKBKeyReleased
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            Connection conn = new DBUtils().createConn();
+            int size = tblModelDV.getRowCount();
+            while (size > 0) {
+                tblModelDV.removeRow(0);
+                size--;
+            }
+            Connection conn = createConn();
             try {
                 String strSQL = "select * from KHAMBENH where MAKB = ? ;";
                 PreparedStatement pres = conn.prepareStatement(strSQL);
