@@ -9,6 +9,7 @@ import com.itextpdf.text.pdf.*;
 import java.awt.Desktop;
 import javax.swing.JOptionPane;
 import java.sql.*;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author THUYNGA
@@ -16,6 +17,8 @@ import java.sql.*;
 public class Lab6_report extends javax.swing.JFrame {
     public Lab6_report() {
         initComponents();
+        tblModelDV = new DefaultTableModel();
+        loadTableDichVu();
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -31,8 +34,8 @@ public class Lab6_report extends javax.swing.JFrame {
         lblKetLuan = new javax.swing.JLabel();
         lblTongTien = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        cbxThanhToan = new javax.swing.JCheckBox();
+        tblDichVu = new javax.swing.JTable();
+        ckbThanhToan = new javax.swing.JCheckBox();
         txtMaKB = new javax.swing.JTextField();
         txtMaBN = new javax.swing.JTextField();
         txtMaBS = new javax.swing.JTextField();
@@ -59,7 +62,7 @@ public class Lab6_report extends javax.swing.JFrame {
 
         lblTongTien.setText("Tổng tiền");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -70,9 +73,9 @@ public class Lab6_report extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblDichVu);
 
-        cbxThanhToan.setText("Đã thanh toán");
+        ckbThanhToan.setText("Đã thanh toán");
 
         txtMaKB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -108,7 +111,7 @@ public class Lab6_report extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(cbxThanhToan))
+                        .addComponent(ckbThanhToan))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -176,7 +179,7 @@ public class Lab6_report extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbxThanhToan)
+                        .addComponent(ckbThanhToan)
                         .addGap(162, 162, 162))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -310,25 +313,46 @@ public class Lab6_report extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnInHoaDonActionPerformed
 
+    DefaultTableModel tblModelDV;
+    public void loadTableDichVu () {
+        String tit[] = {"Mã dịch vụ", "Tên dịch vụ", "Số lượng","Thành tiền"};
+        tblModelDV.setColumnIdentifiers(tit);
+        tblDichVu.setModel(tblModelDV);
+        
+        setVisible(true);
+    }
+    
     private void txtMaKBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKBKeyReleased
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            KhamBenhDTO khambenhDTO = new KhamBenhDTO();
-            KhamBenhBUS khambenhBUS = new KhamBenhBUS();
-            khambenhDTO = khambenhBUS.getThongTin(txtMaKB.getText());
-            txtMaBN.setText(khambenhDTO.getMaBN());
-            txtMaBS.setText(khambenhDTO.getMaBS());
-            txtNgayKham.setText(khambenhDTO.getNgayKham().toString());
-            txtYeuCauKham.setText(khambenhDTO.getYeuCauKham());
-            txtKetLuan.setText(khambenhDTO.getKetLuan());
+            try {
+                Connection conn = new DBUtils().createConn();
+                String strSQL = "select * from KHAMBENH where MAKB = ? ;";
+                PreparedStatement pres = conn.prepareStatement(strSQL);
+                pres.setString(1, txtMaKB.getText());
+                ResultSet rs = pres.executeQuery();
+                if (rs.first()) {
+                    txtMaBN.setText(rs.getString("MABN"));
+                    txtMaBS.setText(rs.getString("MABS"));
+                    txtNgayKham.setText(rs.getDate("NGAYKHAM").toString());
+                    txtYeuCauKham.setText(rs.getString("YEUCAUKHAM"));
+                    txtKetLuan.setText(rs.getString("KetLuan"));
+                    if (rs.getBoolean("THANHTOAN") == true)
+                        ckbThanhToan.setEnabled(false);
+                }
+                conn.close();
+                pres.close();
+                if (rs!=null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_txtMaKBKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInHoaDon;
-    private javax.swing.JCheckBox cbxThanhToan;
+    private javax.swing.JCheckBox ckbThanhToan;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblKetLuan;
     private javax.swing.JLabel lblMaBN;
     private javax.swing.JLabel lblMaBS;
@@ -336,6 +360,7 @@ public class Lab6_report extends javax.swing.JFrame {
     private javax.swing.JLabel lblNgayKham;
     private javax.swing.JLabel lblTongTien;
     private javax.swing.JLabel lblYeuCauKham;
+    private javax.swing.JTable tblDichVu;
     private javax.swing.JTextField txtKetLuan;
     private javax.swing.JTextField txtMaBN;
     private javax.swing.JTextField txtMaBS;
