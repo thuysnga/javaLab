@@ -7,6 +7,6 @@ import GUI.*;
  */
 public class QuanLyPhongKham {
     public static void main(String[] args) {
-    new Lab6_report();
+    new ThemThongTinBenhNhanGUI();
     }
 }

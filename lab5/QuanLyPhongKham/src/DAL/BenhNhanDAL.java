@@ -80,7 +80,6 @@ public class BenhNhanDAL {
             pres.setString(1, khambenhDTO.getMaBS());
             java.sql.Date sqldate = new java.sql.Date(khambenhDTO.getNgayKham().getTime());
             pres.setDate(2,sqldate);
-            System.out.println(rs);
             rs = pres.executeQuery();
             while (rs.next()) {
                 listMa.add(rs.getString("mabn"));
@@ -98,5 +97,26 @@ public class BenhNhanDAL {
                 e.printStackTrace();
             }
         }
+    }
+    public boolean isExist(String maBN) {
+        String sql = "Select * from BENHNHAN where MABN = '" + maBN +"';";
+        try {
+            conn = new DBUtils().createConn();
+            stat = conn.createStatement();
+            rs = stat.executeQuery(sql);
+            if (rs.first()) return true;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                stat.close();
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }

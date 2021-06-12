@@ -8,6 +8,7 @@ import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 import java.text.NumberFormat;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 /**
  *
  * @author THUYNGA
@@ -508,6 +509,10 @@ public class Lab6_report extends javax.swing.JFrame {
     
     private void txtMaKBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKBKeyReleased
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            if (txtMaKB.getText() == "" || txtMaKB.getText() == null) {
+                JOptionPane.showMessageDialog(null,"Vui lòng nhập mã khám bệnh!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
             int size = tblModelDV.getRowCount();
             while (size > 0) {
                 tblModelDV.removeRow(0);

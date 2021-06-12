@@ -20,4 +20,7 @@ public class BenhNhanBUS {
     public void getMaVaTen(KhamBenhDTO khambenhDTO, ArrayList listMa, ArrayList listTen) {
         benhnhanDAL.getMaVaTen(khambenhDTO, listMa, listTen);
     }
+    public boolean isExist(String maBN) {
+        return benhnhanDAL.isExist(maBN);
+    }
 }

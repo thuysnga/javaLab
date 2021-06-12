@@ -13,6 +13,7 @@ public class ThemThongTinBenhNhanGUI extends javax.swing.JFrame {
     public ThemThongTinBenhNhanGUI() {
         initComponents();
         setSize(430,360);
+        setAllDefault();
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -157,28 +158,41 @@ public class ThemThongTinBenhNhanGUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    void setAllDefault() {
+        txtMaBN.setText("");
+        txtTenBN.setText("");
+        dtcNgaySinh.setDate(null);
+        txtDiaChi.setText("");
+        txtSDT.setText("");
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        BenhNhanDTO benhNhanDTO = new BenhNhanDTO();
-        
-        benhNhanDTO.setMabn(txtMaBN.getText());
-        benhNhanDTO.setTenbn(txtTenBN.getText());
-        benhNhanDTO.setNgaysinh(dtcNgaySinh.getDate());
-        benhNhanDTO.setDiachi(txtDiaChi.getText());
-        boolean gt = false;
-        if (cbbGioitinh.getSelectedItem().toString() == "Nam") gt = true;
-        benhNhanDTO.setGioitinh(gt);
         BenhNhanBUS benhnhanBUS = new BenhNhanBUS();
-        try {
-            int result = benhnhanBUS.themBN(benhNhanDTO);
-            if (result != 0)
-                JOptionPane.showMessageDialog(null, "Thêm bệnh nhân thành công!","Thông bao", JOptionPane.INFORMATION_MESSAGE);
-            else 
-                JOptionPane.showMessageDialog(null, "Thêm bệnh nhân không thành công!","Thông bao", JOptionPane.INFORMATION_MESSAGE);                
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (benhnhanBUS.isExist(txtMaBN.getText()) == false) {
+            if (txtMaBN.getText() == "" || txtTenBN.getText() == "" || dtcNgaySinh.getDate() == null || txtDiaChi.getText() == "" || txtSDT.getText() == ""){
+                JOptionPane.showMessageDialog(null,"Vui lòng nhập đủ thông tin","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            }
+            BenhNhanDTO benhNhanDTO = new BenhNhanDTO();
+            benhNhanDTO.setMabn(txtMaBN.getText());
+            benhNhanDTO.setTenbn(txtTenBN.getText());
+            benhNhanDTO.setNgaysinh(dtcNgaySinh.getDate());
+            benhNhanDTO.setDiachi(txtDiaChi.getText());
+            boolean gt = false;
+            if (cbbGioitinh.getSelectedItem().toString() == "Nam") gt = true;
+            benhNhanDTO.setGioitinh(gt);
+            try {
+                int result = benhnhanBUS.themBN(benhNhanDTO);
+                if (result != 0)
+                    JOptionPane.showMessageDialog(null, "Thêm bệnh nhân thành công!","Thông bao", JOptionPane.INFORMATION_MESSAGE);
+                else 
+                    JOptionPane.showMessageDialog(null, "Thêm bệnh nhân không thành công!\n Kiểm tra lại thông tin.","Thông bao", JOptionPane.INFORMATION_MESSAGE);                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
+        else {
+            JOptionPane.showMessageDialog(null, "Mã bệnh nhân đã tồn tại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            txtMaBN.setText("");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
