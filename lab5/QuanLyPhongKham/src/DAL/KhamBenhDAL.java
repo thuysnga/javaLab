@@ -116,4 +116,52 @@ public class KhamBenhDAL {
         } 
         return null;
     }
+    public String getMaKB (String MaBS, String MaBN, Date NgKham) {
+        String sql = "select * from KHAMBENH where MaBS = ? and MABN = ? and NGAYKHAM = ? and (THANHTOAN = null or THANHTOAN = 0);";
+        String res = "";
+        try {
+            conn = new DBUtils().createConn();
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, MaBS);
+            pres.setString(2, MaBN);
+            java.sql.Date sqldate = new java.sql.Date(NgKham.getTime());
+            pres.setDate(3,sqldate);
+            rs = pres.executeQuery();
+            if (rs.first())
+                res = rs.getString("MAKB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                pres.close();
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
+    }
+    public void capNhatKetLuan(String kl, String makb) {
+        String sql = "update KHAMBENH set KETLUAN = ? where MAKB = ?;";
+        try { 
+            conn = new DBUtils().createConn();
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, kl);
+            pres.setString(2, makb);
+            pres.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                pres.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

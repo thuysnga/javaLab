@@ -5,9 +5,14 @@ import BUS.BenhNhanBUS;
 import BUS.DichVuBUS;
 import DTO.DichVuDTO;
 import DTO.KhamBenhDTO;
+import BUS.KhamBenhBUS;
+import BUS.ThuPhiBUS;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,23 +23,27 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
     ArrayList<String> dsMaBS = new ArrayList<String>();        
     ArrayList<String> dsTenBN = new ArrayList<String>();        
     ArrayList<String> dsMaBN = new ArrayList<String>();        
-
+    String makb = null;
     public ChiTietKhamGUI() {
         initComponents();
         setSize(650,430);
         setTitle("Khám bệnh");
         txtYeuCauKham.setEditable(false);
+        Date date = new Date();
+        datNgayKham.setDate(date);
         loadCbbTenBS();
         loadtblDichVu();
         loadtblDVDuocChon();
         setVisible(true);
     }
     public void loadCbbTenBS() {
+        makb = null;
         dsTenBS.removeAll(dsTenBS);
         dsMaBS.removeAll(dsMaBS);
         txtYeuCauKham.setText("");
         BacSiBUS bacsiBUS = new BacSiBUS();
         dsTenBS = bacsiBUS.getTenBS();
+        dsMaBS = bacsiBUS.getMaBS();
         cbbBacSiKham.setModel(new DefaultComboBoxModel <> (dsTenBS.toArray(new String[0])));
     }
     public void loadCbbTenBN() {
@@ -42,10 +51,8 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         dsMaBN.removeAll(dsMaBN);
         txtYeuCauKham.setText("");
         KhamBenhDTO kbDTO = new KhamBenhDTO();
-        BacSiBUS bacsiBUS = new BacSiBUS();
-        dsMaBS = bacsiBUS.getMaBS();
         kbDTO.setMaBS(dsMaBS.get(cbbBacSiKham.getSelectedIndex()));
-        kbDTO.setNgayKham(dtcNgayKham.getDate());
+        kbDTO.setNgayKham(datNgayKham.getDate());
         BenhNhanBUS bnBUS = new BenhNhanBUS();
         bnBUS.getMaVaTen(kbDTO, dsMaBN, dsTenBN);
         cbbBenhNhan.setModel(new DefaultComboBoxModel<String> (dsTenBN.toArray(new String[0])));
@@ -75,7 +82,7 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
     DefaultTableModel tblModelDVDuocChon;
     public void loadtblDVDuocChon() {
         tblModelDVDuocChon = new DefaultTableModel();
-        String tit[] = {"Tên dịch vụ","Số lượng"};
+        String tit[] = {"Mã dịch vụ","Tên dịch vụ","Đơn giá","Số lượng"};
         tblModelDVDuocChon.setColumnIdentifiers(tit);
         tblDichVuDuocChon.setModel(tblModelDVDuocChon);
         setVisible(true);
@@ -98,7 +105,7 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         lblDSDichVuDuocChon = new javax.swing.JLabel();
         cbbBacSiKham = new javax.swing.JComboBox<>();
         cbbBenhNhan = new javax.swing.JComboBox<>();
-        dtcNgayKham = new com.toedter.calendar.JDateChooser();
+        datNgayKham = new com.toedter.calendar.JDateChooser();
         txtYeuCauKham = new javax.swing.JTextField();
         txtKetLuan = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -171,8 +178,18 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         });
 
         cbbBenhNhan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên bệnh nhân" }));
+        cbbBenhNhan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbBenhNhanActionPerformed(evt);
+            }
+        });
 
-        dtcNgayKham.setMinSelectableDate(new java.util.Date(-62135791133000L));
+        datNgayKham.setMinSelectableDate(new java.util.Date(-62135791133000L));
+        datNgayKham.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                datNgayKhamPropertyChange(evt);
+            }
+        });
 
         tblDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -185,6 +202,11 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblDichVu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDichVuMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblDichVu);
 
         tblDichVuDuocChon.setModel(new javax.swing.table.DefaultTableModel(
@@ -202,6 +224,11 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
 
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -244,7 +271,7 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(lblNgayKham, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(dtcNgayKham, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(datNgayKham, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(31, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(218, 218, 218)
@@ -267,7 +294,7 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblNgayKham)
-                            .addComponent(dtcNgayKham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(datNgayKham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblYeuCauKham)
@@ -308,11 +335,66 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         loadCbbTenBN();
     }//GEN-LAST:event_cbbBacSiKhamActionPerformed
 
+    private void datNgayKhamPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datNgayKhamPropertyChange
+        if (dsTenBS.size() > 0){
+            loadCbbTenBN();
+            makb = null;
+        }
+    }//GEN-LAST:event_datNgayKhamPropertyChange
+
+    private void tblDichVuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDichVuMouseClicked
+        int index = tblDichVu.getSelectedRow();
+        if (index >= 0 && index <= tblModelDV.getRowCount()) {
+            String row [] = new String[4];
+            row[0] = tblModelDV.getValueAt(index,0).toString();
+            row[1] = tblModelDV.getValueAt(index,1).toString();
+            row[2] = tblModelDV.getValueAt(index,2).toString();
+            row[3] = "1";
+            tblModelDVDuocChon.addRow(row);
+            tblModelDV.removeRow(index);
+        }
+    }//GEN-LAST:event_tblDichVuMouseClicked
+
+    private void cbbBenhNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbBenhNhanActionPerformed
+        txtYeuCauKham.setText("");
+        KhamBenhDTO khambenhDTO = new KhamBenhDTO();
+        KhamBenhBUS khambenhBUS = new KhamBenhBUS();
+        String mabs = dsMaBS.get(cbbBacSiKham.getSelectedIndex());
+        String mabn = dsMaBN.get(cbbBenhNhan.getSelectedIndex());
+        java.sql.Date ngkham = new java.sql.Date(datNgayKham.getDate().getTime());
+        makb = khambenhBUS.getMaKB(mabs,mabn,ngkham);
+        khambenhDTO = khambenhBUS.getThongTin(makb);
+        txtYeuCauKham.setText(khambenhDTO.getYeuCauKham());
+    }//GEN-LAST:event_cbbBenhNhanActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        if (makb == null || txtKetLuan.getText().equals(""))
+           JOptionPane.showMessageDialog(null,"Vui lòng chọn bệnh nhân/ nhập kết luận.","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+        else {
+            if (tblModelDVDuocChon.getRowCount() == 0)
+                JOptionPane.showMessageDialog(null,"Vui lòng chọn dịch vụ!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            else {
+                for (int i = 0; i < tblModelDVDuocChon.getRowCount(); i++ ) {
+                    ThuPhiBUS thuphiBUS = new ThuPhiBUS();
+                    String madv = tblModelDVDuocChon.getValueAt(i,0).toString();
+                    String dongia = tblModelDVDuocChon.getValueAt(i,2).toString();
+                    String soluong = tblModelDVDuocChon.getValueAt(i,3).toString();
+                    int ThanhTien = Integer.parseInt(soluong) * Integer.parseInt(dongia);
+                    String thanhtien = String.valueOf(ThanhTien);
+                    thuphiBUS.themThuPhi(makb, madv, soluong, thanhtien);
+                    KhamBenhBUS khambenhBUS = new KhamBenhBUS();
+                    khambenhBUS.capNhatKetLuan(txtKetLuan.getText(), makb);
+                }
+                JOptionPane.showMessageDialog(null,"Thành công!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnThemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThem;
     private javax.swing.JComboBox<String> cbbBacSiKham;
     private javax.swing.JComboBox<String> cbbBenhNhan;
-    private com.toedter.calendar.JDateChooser dtcNgayKham;
+    private com.toedter.calendar.JDateChooser datNgayKham;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -2,6 +2,7 @@ package BUS;
 
 import DAL.KhamBenhDAL;
 import DTO.KhamBenhDTO;
+import java.sql.*;
 
 /**
  *
@@ -17,5 +18,11 @@ public class KhamBenhBUS {
     }
     public KhamBenhDTO getThongTin(String maKB) {
         return khambenhDAL.getThongTin(maKB);
+    }
+    public String getMaKB (String MaBS, String MaBN, Date NgKham) {
+        return khambenhDAL.getMaKB(MaBS, MaBN, NgKham);
+    }
+    public void capNhatKetLuan(String kl, String makb) {
+        khambenhDAL.capNhatKetLuan(kl, makb);
     }
 }
