@@ -100,11 +100,13 @@ public class BenhNhanDAL {
     }
     public boolean isExist(String maBN) {
         String sql = "Select * from BENHNHAN where MABN = '" + maBN +"';";
+        Boolean res = false;
         try {
             conn = new DBUtils().createConn();
             stat = conn.createStatement();
             rs = stat.executeQuery(sql);
-            if (rs.first()) return true;
+            if (rs.first()) 
+                res = true;
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -117,6 +119,6 @@ public class BenhNhanDAL {
                 e.printStackTrace();
             }
         }
-        return false;
+        return res;
     }
 }

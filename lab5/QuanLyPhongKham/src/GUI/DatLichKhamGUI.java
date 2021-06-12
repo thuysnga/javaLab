@@ -174,16 +174,17 @@ public class DatLichKhamGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtMaBNKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaBNKeyPressed
-        BenhNhanBUS benhnhanBUS = new BenhNhanBUS();
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            System.out.println(benhnhanBUS.getTenBN(txtMaBN.getText()));
-            if (benhnhanBUS.getTenBN(txtMaBN.getText()) == "") {
-                JOptionPane.showMessageDialog(null, "Không tìm thấy bệnh nhân", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                txtMaBN.setText("");
-                txtTenBN.setText("");
+            if (txtMaBN.getText().equals("")) 
+                JOptionPane.showMessageDialog(null,"Vui lòng nhập mã bệnh nhân.","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            else {
+                BenhNhanBUS benhnhanBUS = new BenhNhanBUS();
+                if (benhnhanBUS.isExist(txtMaBN.getText()) == false)
+                    JOptionPane.showMessageDialog(null,"Không tìm thấy bệnh nhân","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+                else {
+                    txtTenBN.setText(benhnhanBUS.getTenBN(txtMaBN.getText()));
+                }
             }
-            else 
-                txtTenBN.setText(benhnhanBUS.getTenBN(txtMaBN.getText()));
         }
     }//GEN-LAST:event_txtMaBNKeyPressed
 

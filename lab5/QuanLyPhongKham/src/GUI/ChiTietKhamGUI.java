@@ -191,6 +191,7 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
             }
         });
 
+        tblDichVu.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         tblDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -209,6 +210,7 @@ public class ChiTietKhamGUI extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(tblDichVu);
 
+        tblDichVuDuocChon.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         tblDichVuDuocChon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
