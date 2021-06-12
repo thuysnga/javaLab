@@ -1,8 +1,10 @@
 package DAL;
 import DBUtils.DBUtils;
+import DTO.DichVuDTO;
 import DTO.KhamBenhDTO;
 import DTO.ThuPhiDTO;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -70,5 +72,37 @@ public class ThuPhiDAL {
             }
         }
         return khambenhDTO;
+    }
+    public void getThongTinThuPhi(ArrayList dichvu, ArrayList thuphi , String maKB, long sum) {
+        String sql = "select * from THUPHI,DICHVU where THUPHI.MADV = DICHVU.MADV and MAKB = '" + maKB +"';";
+        try {
+            conn = new DBUtils().createConn();
+            stat = conn.createStatement();
+            rs = stat.executeQuery(sql);
+            while (rs.next()) {
+                DichVuDTO dichvuDTO = new DichVuDTO();
+                dichvuDTO.setMaDV(rs.getString("madv"));
+                dichvuDTO.setTenDV(rs.getString("tendv"));
+                ThuPhiDTO thuphiDTO = new ThuPhiDTO();
+                thuphiDTO.setSoLuong(rs.getInt("SOLUONG"));
+                thuphiDTO.setThanhTien(rs.getLong("THANHTIEN"));
+                int sl = rs.getInt("soluong");
+                dichvu.add(dichvuDTO);
+                thuphi.add(thuphiDTO);
+                sum += rs.getLong("THANHTIEN");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                stat.close();
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

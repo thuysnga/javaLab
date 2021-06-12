@@ -2,7 +2,10 @@ package GUI;
 
 import BUS.BenhNhanBUS;
 import BUS.ThuPhiBUS;
+import DTO.DichVuDTO;
 import DTO.KhamBenhDTO;
+import DTO.ThuPhiDTO;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -12,12 +15,13 @@ import javax.swing.table.DefaultTableModel;
  * @author THUYNGA
  */
 public class ThanhToanGUI extends javax.swing.JFrame {
+    ArrayList<DichVuDTO> arrDV = null;
+    ArrayList<ThuPhiDTO> arrTP = null;
+    String mabn = "";
     public ThanhToanGUI() {
         initComponents();
         setTitle("Thanh Toán");
         setSize(600,430);
-        Date date = new Date();
-        datNgayKham.setDate(date);
         txtMaBN.setText("");
         txtTenBN.setEditable(false);
         txtYeuCauKham.setEditable(false);
@@ -35,20 +39,6 @@ public class ThanhToanGUI extends javax.swing.JFrame {
         tblModelDV.setColumnIdentifiers(tit);
         tblDichVu.setModel(tblModelDV);
         setVisible(true);
-    }
-    public void loadData() {
-        txtYeuCauKham.setText("");
-        txtKetLuan.setText("");
-        txtTongTien.setText("");
-        ckbThanhToan.setEnabled(true);
-        ckbThanhToan.setSelected(false);
-        btnThanhToan.setEnabled(false);
-        
-        ThuPhiBUS thuphiBUS = new ThuPhiBUS();
-        KhamBenhDTO khambenhDTO = new KhamBenhDTO();
-        String mabn = txtMaBN.getText();
-        java.sql.Date ngaykham = new java.sql.Date(datNgayKham.getDate().getTime());
-        khambenhDTO = thuphiBUS.getThongTinKhamBenh(mabn, ngaykham);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -126,6 +116,12 @@ public class ThanhToanGUI extends javax.swing.JFrame {
 
         btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnThanhToan.setText("Thanh toán");
+
+        datNgayKham.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                datNgayKhamPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -229,7 +225,7 @@ public class ThanhToanGUI extends javax.swing.JFrame {
 
     private void txtMaBNKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaBNKeyReleased
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            if (txtMaBN.getText().equals("")) 
+            if (txtMaBN.getText().equals(""))
                 JOptionPane.showMessageDialog(null,"Vui lòng nhập mã bệnh nhân.","Thông báo",JOptionPane.INFORMATION_MESSAGE);
             else {
                 BenhNhanBUS benhnhanBUS = new BenhNhanBUS();
@@ -237,11 +233,60 @@ public class ThanhToanGUI extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null,"Không tìm thấy bệnh nhân","Thông báo",JOptionPane.INFORMATION_MESSAGE);
                 else {
                     txtTenBN.setText(benhnhanBUS.getTenBN(txtMaBN.getText()));
+                    mabn = txtMaBN.getText();
                 }
             }
         }
 
     }//GEN-LAST:event_txtMaBNKeyReleased
+    public void loadData() {
+        txtYeuCauKham.setText("");
+        txtKetLuan.setText("");
+        txtTongTien.setText("");
+        ckbThanhToan.setEnabled(true);
+        ckbThanhToan.setSelected(false);
+        btnThanhToan.setEnabled(false);
+        
+        ThuPhiBUS thuphiBUS = new ThuPhiBUS();
+        KhamBenhDTO khambenhDTO = new KhamBenhDTO();
+        String mabn = txtMaBN.getText();
+        java.sql.Date ngaykham = new java.sql.Date(datNgayKham.getDate().getTime());
+        khambenhDTO = thuphiBUS.getThongTinKhamBenh(mabn, ngaykham);
+        if (khambenhDTO == null) {
+            JOptionPane.showMessageDialog(null,"Lỗi", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        txtYeuCauKham.setText(khambenhDTO.getYeuCauKham());
+        txtKetLuan.setText(khambenhDTO.getKetLuan());
+        if (khambenhDTO.isTHANHTOAN() == true) {
+            ckbThanhToan.setEnabled(false);
+            btnThanhToan.setEnabled(false);
+        }
+        else
+            btnThanhToan.setEnabled(true);
+
+        arrDV = new ArrayList<DichVuDTO>();
+        arrTP = new ArrayList<ThuPhiDTO>();
+        long sum = 0;
+        thuphiBUS.getThongTinThuPhi(arrDV, arrTP, khambenhDTO.getMaKB(),sum);
+        for (int i = 0; i < arrDV.size(); i++) {
+            DichVuDTO dichvuDTO = arrDV.get(i);
+            ThuPhiDTO thuphiDTO = arrTP.get(i);
+
+            String maDV = dichvuDTO.getMaDV();
+            String tenDV = dichvuDTO.getTenDV();
+            int sl = thuphiDTO.getSoLuong();
+            long thanhtien = thuphiDTO.getThanhTien();
+            Object row[] = {maDV,tenDV,sl,thanhtien};
+            tblModelDV.addRow(row);
+        }
+        txtTongTien.setText(String.valueOf(sum));
+    }
+
+    private void datNgayKhamPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datNgayKhamPropertyChange
+        if (mabn.equals("") == false)
+            loadData();
+    }//GEN-LAST:event_datNgayKhamPropertyChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThanhToan;
