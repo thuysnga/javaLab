@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.BenhNhanBUS;
+import BUS.KhamBenhBUS;
 import BUS.ThuPhiBUS;
 import DTO.DichVuDTO;
 import DTO.KhamBenhDTO;
@@ -18,11 +19,14 @@ public class ThanhToanGUI extends javax.swing.JFrame {
     ArrayList<DichVuDTO> arrDV = null;
     ArrayList<ThuPhiDTO> arrTP = null;
     String mabn = "";
+    String makb = "";
     public ThanhToanGUI() {
         initComponents();
         setTitle("Thanh Toán");
         setSize(600,430);
         txtMaBN.setText("");
+        Date date = new Date();
+        datNgayKham.setDate(date);
         txtTenBN.setEditable(false);
         txtYeuCauKham.setEditable(false);
         txtKetLuan.setEditable(false);
@@ -116,6 +120,11 @@ public class ThanhToanGUI extends javax.swing.JFrame {
 
         btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnThanhToan.setText("Thanh toán");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
 
         datNgayKham.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -132,7 +141,7 @@ public class ThanhToanGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblDSDV, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(403, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblMaBN)
@@ -164,7 +173,7 @@ public class ThanhToanGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(208, 208, 208)
                         .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblTit)
@@ -234,6 +243,7 @@ public class ThanhToanGUI extends javax.swing.JFrame {
                 else {
                     txtTenBN.setText(benhnhanBUS.getTenBN(txtMaBN.getText()));
                     mabn = txtMaBN.getText();
+                    loadData();
                 }
             }
         }
@@ -253,7 +263,7 @@ public class ThanhToanGUI extends javax.swing.JFrame {
         java.sql.Date ngaykham = new java.sql.Date(datNgayKham.getDate().getTime());
         khambenhDTO = thuphiBUS.getThongTinKhamBenh(mabn, ngaykham);
         if (khambenhDTO == null) {
-            JOptionPane.showMessageDialog(null,"Lỗi", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Vui lòng nhập chính xác thông tin mã bệnh nhân và ngày khám!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         txtYeuCauKham.setText(khambenhDTO.getYeuCauKham());
@@ -267,8 +277,14 @@ public class ThanhToanGUI extends javax.swing.JFrame {
 
         arrDV = new ArrayList<DichVuDTO>();
         arrTP = new ArrayList<ThuPhiDTO>();
+        arrDV.removeAll(arrDV);
+        arrTP.removeAll(arrTP);
+        while(tblModelDV.getRowCount() > 0) {
+            tblModelDV.removeRow(0);
+        }
         long sum = 0;
-        thuphiBUS.getThongTinThuPhi(arrDV, arrTP, khambenhDTO.getMaKB(),sum);
+        makb = khambenhDTO.getMaKB();
+        thuphiBUS.getThongTinThuPhi(arrDV, arrTP, makb, sum);
         for (int i = 0; i < arrDV.size(); i++) {
             DichVuDTO dichvuDTO = arrDV.get(i);
             ThuPhiDTO thuphiDTO = arrTP.get(i);
@@ -287,6 +303,15 @@ public class ThanhToanGUI extends javax.swing.JFrame {
         if (mabn.equals("") == false)
             loadData();
     }//GEN-LAST:event_datNgayKhamPropertyChange
+
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        if (makb.equals("") == false) {
+            KhamBenhBUS khambenhBUS = new KhamBenhBUS();
+            khambenhBUS.setTHANHTOAN(makb);
+            loadData();
+            JOptionPane.showMessageDialog(null,"Thành công!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnThanhToanActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThanhToan;

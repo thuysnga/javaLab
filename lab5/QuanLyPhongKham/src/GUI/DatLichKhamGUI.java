@@ -189,26 +189,30 @@ public class DatLichKhamGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaBNKeyPressed
 
     private void btnDatLichKhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLichKhamActionPerformed
-        KhamBenhDTO khambenhDTO = new KhamBenhDTO();
-        KhamBenhBUS khambenhBUS = new KhamBenhBUS();
-        khambenhDTO.setMaKB(khambenhBUS.layMaKB());
-        khambenhDTO.setMaBN(txtMaBN.getText());
+        if (txtMaBN.getText().equals("") || txtYeuCauKham.getText().equals("") || dtcNgayKham.getDate() == null)
+            JOptionPane.showMessageDialog(null,"Vui lòng nhập đủ thông tin!","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+        else {
+            KhamBenhDTO khambenhDTO = new KhamBenhDTO();
+            KhamBenhBUS khambenhBUS = new KhamBenhBUS();
+            khambenhDTO.setMaKB(khambenhBUS.layMaKB());
+            khambenhDTO.setMaBN(txtMaBN.getText());
         
-        BacSiBUS bacsiBUS = new BacSiBUS();
-        ArrayList<String> dsBS = bacsiBUS.getMaBS();
-        khambenhDTO.setMaBS(dsBS.get(cbbBacSiKham.getSelectedIndex()));
-        
-        khambenhDTO.setNgayKham(dtcNgayKham.getDate());
-        khambenhDTO.setYeuCauKham(txtYeuCauKham.getText());
-        khambenhDTO.setKetLuan("");
-        try {
-            int res = khambenhBUS.themKhamBenh(khambenhDTO);
-            if (res != 0)
-                JOptionPane.showMessageDialog(null, "Đặt lịch thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            else 
-                JOptionPane.showInternalMessageDialog(null, "Xãy ra lỗi khi đặt lịch", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            e.printStackTrace();
+            BacSiBUS bacsiBUS = new BacSiBUS();
+            ArrayList<String> dsBS = bacsiBUS.getMaBS();
+            khambenhDTO.setMaBS(dsBS.get(cbbBacSiKham.getSelectedIndex()));
+            
+            khambenhDTO.setNgayKham(dtcNgayKham.getDate());
+            khambenhDTO.setYeuCauKham(txtYeuCauKham.getText());
+            khambenhDTO.setKetLuan("");
+            try {
+                int res = khambenhBUS.themKhamBenh(khambenhDTO);
+                if (res != 0)
+                    JOptionPane.showMessageDialog(null, "Đặt lịch thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                else 
+                    JOptionPane.showInternalMessageDialog(null, "Xãy ra lỗi khi đặt lịch", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }            
         }
     }//GEN-LAST:event_btnDatLichKhamActionPerformed
 

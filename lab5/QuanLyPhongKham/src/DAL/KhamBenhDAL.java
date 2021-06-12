@@ -164,4 +164,22 @@ public class KhamBenhDAL {
             }
         }
     }
+    public void setTHANHTOAN(String maKB) {
+        String sql = "update KHAMBENH set THANHTOAN = true where MAKB = '" + maKB +"';";
+        try {
+            conn = new DBUtils().createConn();
+            stat = conn.createStatement();
+            stat.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+                stat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

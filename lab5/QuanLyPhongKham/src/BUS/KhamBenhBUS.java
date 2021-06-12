@@ -25,4 +25,7 @@ public class KhamBenhBUS {
     public void capNhatKetLuan(String kl, String makb) {
         khambenhDAL.capNhatKetLuan(kl, makb);
     }
+    public void setTHANHTOAN(String maKB) {
+        khambenhDAL.setTHANHTOAN(maKB);
+    }
 }
