@@ -158,6 +158,9 @@ public class ThongKeGUI extends javax.swing.JFrame {
             loaiBC = "BÁO CÁO DOANH THU THEO NGÀY";
         
         String filename = loaiBC;
+        java.sql.Date fromdate = new java.sql.Date(datTuNgay.getDate().getTime());
+        java.sql.Date todate = new java.sql.Date(datDenNgay.getDate().getTime());
+
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("reports/" + filename + ".pdf"));
             document.open();
@@ -206,10 +209,26 @@ public class ThongKeGUI extends javax.swing.JFrame {
             prgTieuDe.setSpacingBefore(10);
             prgTieuDe.setSpacingAfter(10);
             document.add(prgTieuDe);
-             
+            
+            
+            String[] arrayFromDate = fromdate.toString().split("-");
+            String ngayFromDate = arrayFromDate[2];
+            String thangFromDate = arrayFromDate[1];
+            String namFromDate = arrayFromDate[0];
+            System.out.print(ngayFromDate+thangFromDate+namFromDate);
+            String[] arrayToDate = todate.toString().split("-");
+            String ngayToDate = arrayToDate[2];
+            String thangToDate = arrayToDate[1];
+            String namToDate = arrayToDate[0];
+
+            Paragraph prgNgKham = new Paragraph(" Từ ngày " + ngayFromDate + "/" + thangFromDate + "/" + namFromDate + " đến ngày " + ngayToDate + "/" + thangToDate + "/" + namToDate, fontTieuDe3);
+            prgNgKham.setAlignment(Element.ALIGN_CENTER);
+            prgNgKham.setSpacingAfter(20);
+            document.add(prgNgKham);
+
             try {
                 Connection conn = createConn();
-                String sql = "select dichvu.madv, tendv, ngaykham, thanhtien "
+                String sql = "select dichvu.madv, tendv, thanhtien "
                         + "from dichvu, khambenh, thuphi "
                         + "where dichvu.madv = thuphi.madv "
                         + "and khambenh.makb = thuphi.makb "
@@ -217,11 +236,11 @@ public class ThongKeGUI extends javax.swing.JFrame {
                         + "and (ngaykham between '?' and '?')"
                         + "group by madv";
                 PreparedStatement pres = conn.prepareStatement(sql);
-                java.sql.Date fromdate = new java.sql.Date(datTuNgay.getDate().getTime());
                 pres.setDate(1,fromdate);
-                java.sql.Date todate = new java.sql.Date(datDenNgay.getDate().getTime());
                 pres.setDate(2,todate);
                 ResultSet rs = pres.executeQuery();
+                if (rs.first()) {
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
