@@ -69,6 +69,12 @@ public class ThongKeGUI extends javax.swing.JFrame {
         lblDenNgay.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblDenNgay.setText("Đến ngày");
 
+        datDenNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                datDenNgayPropertyChange(evt);
+            }
+        });
+
         cbbLoaiBaoCao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbbLoaiBaoCao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn loại báo cáo", "BC Doanh thu dịch vụ", "BC Doanh thu từng ngày" }));
 
@@ -204,7 +210,7 @@ public class ThongKeGUI extends javax.swing.JFrame {
             prgSDT.setIndentationLeft(100);
             document.add(prgSDT);
             
-            Paragraph prgTieuDe = new Paragraph(loaiBC,fontTieuDe1);
+            Paragraph prgTieuDe = new Paragraph(loaiBC.toUpperCase(),fontTieuDe1);
             prgTieuDe.setAlignment(Element.ALIGN_CENTER);
             prgTieuDe.setSpacingBefore(10);
             prgTieuDe.setSpacingAfter(10);
@@ -215,7 +221,6 @@ public class ThongKeGUI extends javax.swing.JFrame {
             String ngayFromDate = arrayFromDate[2];
             String thangFromDate = arrayFromDate[1];
             String namFromDate = arrayFromDate[0];
-            System.out.print(ngayFromDate+thangFromDate+namFromDate);
             String[] arrayToDate = todate.toString().split("-");
             String ngayToDate = arrayToDate[2];
             String thangToDate = arrayToDate[1];
@@ -233,7 +238,7 @@ public class ThongKeGUI extends javax.swing.JFrame {
                         + "where dichvu.madv = thuphi.madv "
                         + "and khambenh.makb = thuphi.makb "
                         + "and thanhtoan = 1 "
-                        + "and (ngaykham between '?' and '?')"
+                        + "and (ngaykham between ? and ? ) "
                         + "group by madv";
                 PreparedStatement pres = conn.prepareStatement(sql);
                 pres.setDate(1,fromdate);
@@ -263,6 +268,18 @@ public class ThongKeGUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnXuatFileActionPerformed
+
+    private void datDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datDenNgayPropertyChange
+        if (cbbLoaiBaoCao.getSelectedIndex() != 0) {
+            if (datTuNgay.getDate() == null) {
+                JOptionPane.showMessageDialog(null,"Chọn ngày bắt đầu","Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            if (datTuNgay.getDate().compareTo(datDenNgay.getDate()) > 0) {
+                JOptionPane.showMessageDialog(null,"Ngày bắt đầu phải nhỏ hơn ngày kết thúc", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_datDenNgayPropertyChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnXuatFile;
