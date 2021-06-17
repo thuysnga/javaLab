@@ -131,6 +131,9 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="datTuNgay">
+          <Events>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="datTuNgayPropertyChange"/>
+          </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="datDenNgay">
           <Events>

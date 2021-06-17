@@ -69,6 +69,12 @@ public class ThongKeGUI extends javax.swing.JFrame {
         lblDenNgay.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblDenNgay.setText("Đến ngày");
 
+        datTuNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                datTuNgayPropertyChange(evt);
+            }
+        });
+
         datDenNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 datDenNgayPropertyChange(evt);
@@ -270,16 +276,30 @@ public class ThongKeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnXuatFileActionPerformed
 
     private void datDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datDenNgayPropertyChange
-        if (cbbLoaiBaoCao.getSelectedIndex() != 0) {
+        if (datDenNgay.getDate() != null) {
             if (datTuNgay.getDate() == null) {
                 JOptionPane.showMessageDialog(null,"Chọn ngày bắt đầu","Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
-            if (datTuNgay.getDate().compareTo(datDenNgay.getDate()) > 0) {
+            java.sql.Date fromdate = new java.sql.Date(datTuNgay.getDate().getTime());
+            java.sql.Date todate = new java.sql.Date(datDenNgay.getDate().getTime());
+            if (fromdate.toString().compareTo(todate.toString()) > 0) {
                 JOptionPane.showMessageDialog(null,"Ngày bắt đầu phải nhỏ hơn ngày kết thúc", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                datDenNgay.setDate(null);
             }
         }
     }//GEN-LAST:event_datDenNgayPropertyChange
+
+    private void datTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datTuNgayPropertyChange
+        if ((datDenNgay.getDate() != null) && (datTuNgay.getDate() != null)) {
+            java.sql.Date fromdate = new java.sql.Date(datTuNgay.getDate().getTime());
+            java.sql.Date todate = new java.sql.Date(datDenNgay.getDate().getTime());
+            if (fromdate.toString().compareTo(todate.toString()) > 0) {
+                JOptionPane.showMessageDialog(null,"Ngày bắt đầu phải nhỏ hơn ngày kết thúc", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                datTuNgay.setDate(null);
+            }
+        }
+    }//GEN-LAST:event_datTuNgayPropertyChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnXuatFile;
